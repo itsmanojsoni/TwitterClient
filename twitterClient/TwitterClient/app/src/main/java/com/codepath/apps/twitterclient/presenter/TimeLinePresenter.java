@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.TwitterApplication;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
+import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.network.TwitterClient;
 
 import java.util.List;
@@ -67,6 +68,12 @@ public class TimeLinePresenter {
                         Log.d("TwitterPresenter", " Twitter Respnse is : "+twitterResponses.toString());
 
                         Log.d(TAG, " Twitter Text = "+twitterResponses.get(0).getText());
+                        // Get all the data here just to be sure we can parse everything
+                        User user = twitterResponses.get(0).getUser();
+
+                        Log.d(TAG, "Screen Name = "+user.getScreen_name());
+                        Log.d(TAG, "Name = "+user.getName());
+                        Log.d(TAG, "profile Image Url"+user.getProfile_image_url());
 
                     }
                 });
