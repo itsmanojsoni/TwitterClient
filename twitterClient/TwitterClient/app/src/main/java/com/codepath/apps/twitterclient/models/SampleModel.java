@@ -1,6 +1,6 @@
 package com.codepath.apps.twitterclient.models;
 
-import com.codepath.apps.twitterclient.MyDatabase;
+import com.codepath.apps.twitterclient.database.MyDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -68,4 +68,5 @@ public class SampleModel extends BaseModel {
 	public static List<SampleModel> recentItems() {
 		return new Select().from(SampleModel.class).orderBy(SampleModel_Table.id, false).limit(300).queryList();
 	}
+
 }

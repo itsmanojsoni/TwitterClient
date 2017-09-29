@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.codepath.apps.twitterclient.database;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

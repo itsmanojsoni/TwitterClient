@@ -1,12 +1,34 @@
-package com.codepath.apps.twitterclient;
+package com.codepath.apps.twitterclient.network;
 
 import android.content.Context;
 
+import com.codepath.apps.twitterclient.R;
+import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
+import se.akerfeldt.okhttp.signpost.SigningInterceptor;
+
+import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_KEY;
+import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_SECRET;
 
 /*
  * 
@@ -22,7 +44,7 @@ import com.loopj.android.http.RequestParams;
  */
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
-	public static final String REST_URL = "https://api.twitter.com/1.1/"; // Change this, base API URL
+	public static final String REST_URL = "https://api.twitter.com/"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = "J9kMDIZR1EB2tyoLdvuIr2qwS";       // Change this
 	public static final String REST_CONSUMER_SECRET = "n2a9PK8bxNwYQhluHRpbWtJ8um3aqcqOt4JAD16y6vykS4v4ZQ"; // Change this
 
@@ -31,6 +53,8 @@ public class TwitterClient extends OAuthBaseClient {
 
 	// See https://developer.chrome.com/multidevice/android/intents
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
+	private TwitterService twitterService;
+
 
 	public TwitterClient(Context context) {
 		super(context, REST_API_INSTANCE,
@@ -40,21 +64,32 @@ public class TwitterClient extends OAuthBaseClient {
 				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 
-//		new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-//		final Retrofit retrofit = new Retrofit.Builder().baseUrl(NYTIMES_BASE_URL)
-//				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-//				.addConverterFactory(GsonConverterFactory.create(gson))
-//				.build();
-//		nyTimesService = retrofit.create(NYTimesService.class);
+
+
+		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+		OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer("J9kMDIZR1EB2tyoLdvuIr2qwS", "n2a9PK8bxNwYQhluHRpbWtJ8um3aqcqOt4JAD16y6vykS4v4ZQ");
+		consumer.setTokenWithSecret("73057146-CA8jziidqIQMGZhpzhvw2AHQdSqnGvGPGgPQkHH2Y", "peQCm8FMfBxn0ywjfA4sjgwcShhw6uQLumnRcwpDXrFRX");
+
+		OkHttpClient client = new OkHttpClient.Builder()
+				.addInterceptor(new SigningInterceptor(consumer))
+				.addInterceptor(interceptor)
+				.build();
+
+		final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+		final Retrofit retrofit = new Retrofit.Builder().baseUrl(REST_URL)
+				.client(client)
+				.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+				.addConverterFactory(GsonConverterFactory.create(gson))
+				.build();
+		twitterService = retrofit.create(TwitterService.class);
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("statuses/home_timeline.json");
-		// Can specify query string params directly or through RequestParams.
-		RequestParams params = new RequestParams();
-		params.put("format", "json");
-		client.get(apiUrl, params, handler);
+	public Observable<List<TwitterResponse>> getHomeTimeline(Integer count, Integer since_id) {
+
+		return  twitterService.getHomeTimeLine();
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

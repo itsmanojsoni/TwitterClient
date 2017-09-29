@@ -44,23 +44,34 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    compile 'com.codepath.libraries:android-oauth-handler:1.2.5'
 
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //RxJAVA and Retorfit
+    
+
+    // Card View
+    
+    compile 'com.codepath.libraries:android-oauth-handler:1.2.5'
+    compile 'com.android.support:appcompat-v7:26.+'
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+
+    compile 'com.loopj.android:android-async-http:1.4.9'
+
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'io.reactivex:rxjava:1.1.8'
-
-    // Card View
     compile 'com.android.support:cardview-v7:26.+'
 
+    // OK HTTP
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
+
+    compile 'se.akerfeldt:okhttp-signpost:1.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+    compile 'oauth.signpost:signpost-core:1.2.1.2'
 }
 
