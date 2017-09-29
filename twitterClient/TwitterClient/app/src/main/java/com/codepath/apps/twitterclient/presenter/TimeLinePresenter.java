@@ -32,6 +32,7 @@ public class TimeLinePresenter {
     private static  final  int count = 25;
     private static final int sinceId = 1;
     private Context context;
+    private static final  String TAG = "TimeLinePresenter";
 
     public TimeLinePresenter(Context context) {
         this.context = context;
@@ -64,6 +65,8 @@ public class TimeLinePresenter {
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
                         Log.d("TwitterPresenter", " Twitter Respnse is : "+twitterResponses.toString());
+
+                        Log.d(TAG, " Twitter Text = "+twitterResponses.get(0).getText());
 
                     }
                 });
