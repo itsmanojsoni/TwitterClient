@@ -30,10 +30,10 @@ public class TimeLinePresenter {
 
     private TwitterClient client;
 
-    private static  final  int count = 25;
+    private static final int count = 25;
     private static final int sinceId = 1;
     private Context context;
-    private static final  String TAG = "TimeLinePresenter";
+    private static final String TAG = "TimeLinePresenter";
 
     public TimeLinePresenter(Context context) {
         this.context = context;
@@ -42,7 +42,7 @@ public class TimeLinePresenter {
     public void loadTwitterFeed() {
         Log.d(TAG, "load Twitter Feed");
         TwitterApplication.getRestClient()
-                .getHomeTimeline(count,sinceId)
+                .getHomeTimeline(count, sinceId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<List<TwitterResponse>>() {
@@ -65,25 +65,53 @@ public class TimeLinePresenter {
                     @Override
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
-                        Log.d("TwitterPresenter", " Twitter Respnse is : "+twitterResponses.toString());
+                        Log.d("TwitterPresenter", " Twitter Respnse is : " + twitterResponses.toString());
 
-                        Log.d(TAG, " Twitter Text = "+twitterResponses.get(0).getText());
+                        Log.d(TAG, " Twitter Text = " + twitterResponses.get(0).getText());
                         // Get all the data here just to be sure we can parse everything
                         User user = twitterResponses.get(0).getUser();
 
-                        Log.d(TAG, "Screen Name = "+user.getScreen_name());
-                        Log.d(TAG, "Name = "+user.getName());
-                        Log.d(TAG, "profile Image Url"+user.getProfile_image_url());
+                        Log.d(TAG, "Screen Name = " + user.getScreen_name());
+                        Log.d(TAG, "Name = " + user.getName());
+                        Log.d(TAG, "profile Image Url" + user.getProfile_image_url());
 
                     }
                 });
 
     }
 
+    public void postTwitterStatus(String status) {
+
+        TwitterApplication.getRestClient()
+                .postStatus(status)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<TwitterResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(TwitterResponse twitterResponse) {
+
+
+                        Log.d(TAG, "In onNext and twitter Response is : " + twitterResponse.getText());
+                    }
+                });
+    }
+
+
     private void checkError() {
 
         if (!isNetworkAvailable()) {
-            Toast.makeText(context,"Network Connection Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Network Connection Error", Toast.LENGTH_LONG).show();
         }
     }
 

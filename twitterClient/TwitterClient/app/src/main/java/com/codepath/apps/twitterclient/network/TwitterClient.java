@@ -43,10 +43,16 @@ import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_SECRET;
  * 
  */
 public class TwitterClient extends OAuthBaseClient {
+
+	// Where to get all the tokens - https://apps.twitter.com/app/14287608/keys
+
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
 	public static final String REST_URL = "https://api.twitter.com/"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = "J9kMDIZR1EB2tyoLdvuIr2qwS";       // Change this
 	public static final String REST_CONSUMER_SECRET = "n2a9PK8bxNwYQhluHRpbWtJ8um3aqcqOt4JAD16y6vykS4v4ZQ"; // Change this
+
+	private static final String ACCESS_TOKEN = "73057146-h1FjE95WWZx4O0CIBHile7T9ays6DZJGNzYMVizbd";
+	private static final String TOKEN_SECRET = "iD5zdg8pIfFEWxwerrZAegQnyb6mWDtDmbWTt95hOh9ph";
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
@@ -69,8 +75,8 @@ public class TwitterClient extends OAuthBaseClient {
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-		OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer("J9kMDIZR1EB2tyoLdvuIr2qwS", "n2a9PK8bxNwYQhluHRpbWtJ8um3aqcqOt4JAD16y6vykS4v4ZQ");
-		consumer.setTokenWithSecret("73057146-CA8jziidqIQMGZhpzhvw2AHQdSqnGvGPGgPQkHH2Y", "peQCm8FMfBxn0ywjfA4sjgwcShhw6uQLumnRcwpDXrFRX");
+		OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(REST_CONSUMER_KEY, REST_CONSUMER_SECRET);
+		consumer.setTokenWithSecret(ACCESS_TOKEN, TOKEN_SECRET);
 
 		OkHttpClient client = new OkHttpClient.Builder()
 				.addInterceptor(new SigningInterceptor(consumer))
@@ -90,6 +96,10 @@ public class TwitterClient extends OAuthBaseClient {
 	public Observable<List<TwitterResponse>> getHomeTimeline(Integer count, Integer since_id) {
 
 		return  twitterService.getHomeTimeLine();
+	}
+
+	public Observable<TwitterResponse> postStatus(String status) {
+		return twitterService.postStatus(status);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

@@ -17,6 +17,8 @@ public class TimeLineActivity extends AppCompatActivity {
 
 
         TimeLinePresenter timeLinePresenter = new TimeLinePresenter(this);
-        timeLinePresenter.loadTwitterFeed();
+//        timeLinePresenter.loadTwitterFeed();
+        String test = "Just a test to see if it is working";
+        timeLinePresenter.postTwitterStatus(test);
     }
 }
