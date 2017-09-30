@@ -1,8 +1,11 @@
 package com.codepath.apps.twitterclient.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,18 +17,36 @@ import butterknife.ButterKnife;
 public class TwitterMainActivity extends AppCompatActivity {
 
 
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.bnLogin);
 
-        button.setOnClickListener(view -> {
 
-            Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        String token = mSettings.getString("token",null);
+        String tokenSecret = mSettings.getString("tokenSecret",null);
+
+        Log.d(TAG, "Shared Preference data token = "+token);
+        Log.d(TAG, "Shared Preference data tokenSecret = "+tokenSecret);
+
+        if (token == null || tokenSecret == null) {
+
+            button.setOnClickListener(view -> {
+
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+            });
+
+        } else {
+
+            Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
             startActivity(intent);
-        });
-
+        }
 
     }
 }

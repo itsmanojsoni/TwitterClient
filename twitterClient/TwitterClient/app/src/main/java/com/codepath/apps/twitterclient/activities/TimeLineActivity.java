@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
@@ -37,6 +38,8 @@ public class TimeLineActivity extends AppCompatActivity {
 
 
         timeLinePresenter = new TimeLinePresenter(this);
+
+        Toast.makeText(this,"Time Line Activity",Toast.LENGTH_LONG).show();
 
         String test = "Just a test to see if it is working";
 //      timeLinePresenter.postTwitterStatus(test);

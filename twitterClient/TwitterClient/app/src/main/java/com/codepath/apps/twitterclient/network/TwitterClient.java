@@ -1,6 +1,9 @@
 package com.codepath.apps.twitterclient.network;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
@@ -27,6 +30,7 @@ import rx.Observable;
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_KEY;
 import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_SECRET;
 
@@ -73,12 +77,22 @@ public class TwitterClient  {
 
 	public TwitterClient(Context context) {
 
+		SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+		String token = mSettings.getString("token",null);
+		String tokenSecret = mSettings.getString("tokenSecret",null);
+
+		Log.d(TAG, "Shared Preference data token = "+token);
+		Log.d(TAG, "Shared Preference data tokenSecret = "+tokenSecret);
+
+
 
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 		OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(REST_CONSUMER_KEY, REST_CONSUMER_SECRET);
-		consumer.setTokenWithSecret(ACCESS_TOKEN, TOKEN_SECRET);
+		consumer.setTokenWithSecret(token, tokenSecret);
 
 		OkHttpClient client = new OkHttpClient.Builder()
 				.addInterceptor(new SigningInterceptor(consumer))
