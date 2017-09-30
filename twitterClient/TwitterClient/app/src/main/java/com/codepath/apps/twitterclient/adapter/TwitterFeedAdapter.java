@@ -14,7 +14,9 @@ import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.util.StringUtil;
+import com.codepath.apps.twitterclient.util.TimeUtil;
 
+import java.text.ParseException;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -98,6 +100,17 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         holder.tvScreenName.setText(user.getScreen_name());
         holder.tvStatusText.setText(item.getText());
 //        holder.tvTime.setText(StringUtil.formatShortHumanTimestamp(Long.valueOf(item.getCreated_at())));
+
+        Long createdTimeStamp = System.currentTimeMillis();
+        try {
+            createdTimeStamp = TimeUtil.getTimeInMills(item.getCreated_at());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String timeDuration = StringUtil.formatShortHumanTimestamp(createdTimeStamp);
+        Log.d(TAG, "Time Duration = "+timeDuration);
+        holder.tvTime.setText(timeDuration);
         Glide.with(context).load(user.getProfile_image_url()).dontAnimate().into(holder.ivProfileImage);
     }
 
@@ -112,5 +125,4 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-
 }
