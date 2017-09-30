@@ -99,6 +99,8 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         holder.tvUserName.setText(user.getName());
         holder.tvScreenName.setText(user.getScreen_name());
         holder.tvStatusText.setText(item.getText());
+
+        Log.d(TAG, "Status Text = "+item.getText());
 //        holder.tvTime.setText(StringUtil.formatShortHumanTimestamp(Long.valueOf(item.getCreated_at())));
 
         Long createdTimeStamp = System.currentTimeMillis();

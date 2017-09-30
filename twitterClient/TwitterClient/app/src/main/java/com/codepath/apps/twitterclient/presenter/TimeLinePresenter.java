@@ -11,6 +11,7 @@ import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.network.TwitterClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observer;
@@ -83,7 +84,7 @@ public class TimeLinePresenter {
 
     }
 
-    public void postTwitterStatus(String status) {
+    public void postTwitterStatus(String status, OnLoadTwitterFeedListener listener) {
 
         TwitterApplication.getRestClient()
                 .postStatus(status)
@@ -103,7 +104,10 @@ public class TimeLinePresenter {
 
                     @Override
                     public void onNext(TwitterResponse twitterResponse) {
-                        Log.d(TAG, "In onNext and twitter Response is : " + twitterResponse.getText());
+                        Log.d(TAG, "In onNext for Post and twitter Response is : " + twitterResponse.getText());
+                        List<TwitterResponse> twitterResponseList = new ArrayList<TwitterResponse>();
+                        twitterResponseList.add(twitterResponse);
+                        listener.onLoadTwitterFeed(twitterResponseList);
                     }
                 });
     }
