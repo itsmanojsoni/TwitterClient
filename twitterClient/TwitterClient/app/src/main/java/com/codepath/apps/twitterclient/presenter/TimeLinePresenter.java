@@ -32,7 +32,7 @@ public class TimeLinePresenter {
     private static final String TAG = "TimeLinePresenter";
 
     OnLoadTwitterFeedListener listener;
-    private int count = 15;
+    private int count = 20;
     private Long sinceId = 1L;
     private Long maxId = -1L;
 
@@ -45,7 +45,6 @@ public class TimeLinePresenter {
     }
 
     public void loadTwitterFeed(OnLoadTwitterFeedListener listener) {
-        Log.d(TAG, "load Twitter Feed");
         TwitterApplication.getRestClient()
                 .getHomeTimeline(count, sinceId,maxId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,9 +66,9 @@ public class TimeLinePresenter {
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
                         if (twitterResponses.size() > 0 ) {
-                            Log.d("TwitterPresenter", "Twitter Respnse Size : " + twitterResponses.size());
-//                        maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
-                            maxId = twitterResponses.get(0).getId();
+                            Log.d(TAG, "Twitter Respnse Size : " + twitterResponses.size());
+                        maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
+//                            maxId = twitterResponses.get(0).getId();
                             Log.d(TAG, "The max ID is : " + maxId);
 //                      sinceId = twitterResponses.get(0).getId();
 

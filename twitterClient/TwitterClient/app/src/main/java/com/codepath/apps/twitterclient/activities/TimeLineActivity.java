@@ -91,8 +91,14 @@ public class TimeLineActivity extends AppCompatActivity {
             Log.d(TAG, "load More Data offset = "+offset);
             timeLinePresenter.loadTwitterFeed(twitterResponse -> {
             twitterResponses.addAll(twitterResponse);
-            view.post(() -> twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
-                    twitterResponses.size() - 1));
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
+                            twitterResponses.size() - 1);
+//                    twitterFeedAdapter.notifyDataSetChanged();
+                }
+            });
                 return;
             });
         }

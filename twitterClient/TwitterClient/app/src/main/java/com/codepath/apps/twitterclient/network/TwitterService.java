@@ -18,11 +18,11 @@ import static android.R.attr.max;
 public interface TwitterService {
 
     @GET("1.1/statuses/home_timeline.json")
-    Observable<List<TwitterResponse>> getHomeTimeLine();
+    Observable<List<TwitterResponse>> getHomeTimeLine(@Query("count") int count) ;
 
 
     @GET("1.1/statuses/home_timeline.json")
-    Observable<List<TwitterResponse>> getHomeTimeLineMax(@Query("max_id") Long maxId);
+    Observable<List<TwitterResponse>> getHomeTimeLineMax(@Query("count") int count, @Query("max_id") Long maxId);
 
     @GET("1.1/statuses/home_timeline.json")
     Observable<List<TwitterResponse>> getHomeTimeLineSince(@Query("since_id") Long sinceId);

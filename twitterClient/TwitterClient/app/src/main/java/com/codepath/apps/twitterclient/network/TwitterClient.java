@@ -112,9 +112,9 @@ public class TwitterClient  {
 	public Observable<List<TwitterResponse>> getHomeTimeline(Integer count, Long sinceId, Long maxId) {
 		// put the login for sinceId and maxID here
 		if (maxId > 0 ) {
-			return  twitterService.getHomeTimeLineMax((maxId - 1));
+			return  twitterService.getHomeTimeLineMax(count, (maxId - 1));
 		} else {
-			return  twitterService.getHomeTimeLine();
+			return  twitterService.getHomeTimeLine(count);
 		}
 	}
 
