@@ -109,9 +109,13 @@ public class TwitterClient  {
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
-	public Observable<List<TwitterResponse>> getHomeTimeline(Integer count, Integer since_id) {
-
-		return  twitterService.getHomeTimeLine();
+	public Observable<List<TwitterResponse>> getHomeTimeline(Integer count, Long sinceId, Long maxId) {
+		// put the login for sinceId and maxID here
+		if (maxId > 0 ) {
+			return  twitterService.getHomeTimeLineMax((maxId - 1));
+		} else {
+			return  twitterService.getHomeTimeLine();
+		}
 	}
 
 	public Observable<TwitterResponse> postStatus(String status) {

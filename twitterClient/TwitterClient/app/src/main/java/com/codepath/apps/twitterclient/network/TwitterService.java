@@ -13,10 +13,20 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
+import static android.R.attr.max;
+
 public interface TwitterService {
 
     @GET("1.1/statuses/home_timeline.json")
     Observable<List<TwitterResponse>> getHomeTimeLine();
+
+
+    @GET("1.1/statuses/home_timeline.json")
+    Observable<List<TwitterResponse>> getHomeTimeLineMax(@Query("max_id") Long maxId);
+
+    @GET("1.1/statuses/home_timeline.json")
+    Observable<List<TwitterResponse>> getHomeTimeLineSince(@Query("since_id") Long sinceId);
+
 
     @FormUrlEncoded
     @POST("1.1/statuses/update.json")

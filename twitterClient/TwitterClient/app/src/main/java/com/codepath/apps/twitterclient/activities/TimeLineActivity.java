@@ -1,6 +1,7 @@
 package com.codepath.apps.twitterclient.activities;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.R.attr.offset;
+import static android.net.sip.SipErrorCode.TIME_OUT;
+
 
 public class TimeLineActivity extends AppCompatActivity {
 
@@ -28,7 +32,11 @@ public class TimeLineActivity extends AppCompatActivity {
     private TwitterFeedAdapter twitterFeedAdapter;
     private TimeLinePresenter timeLinePresenter;
 
-    @BindView(R.id.rvTwitterClient) RecyclerView recyclerView;
+    @BindView(R.id.rvTwitterClient)
+    RecyclerView recyclerView;
+
+    private Handler handler = new Handler();
+    private static final  int TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +47,7 @@ public class TimeLineActivity extends AppCompatActivity {
 
         timeLinePresenter = new TimeLinePresenter(this);
 
-        Toast.makeText(this,"Time Line Activity",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Time Line Activity", Toast.LENGTH_LONG).show();
 
         String test = "Just a test to see if it is working";
 //      timeLinePresenter.postTwitterStatus(test);
@@ -50,34 +58,42 @@ public class TimeLineActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
 
-
         twitterFeedAdapter = new TwitterFeedAdapter(getApplicationContext(), twitterResponses,
-                new TwitterFeedAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Log.d(TAG, "Twitter Item Clicked");
-                    }
-                });
+                position -> Log.d(TAG, "Twitter Item Clicked"));
 
         recyclerView.setAdapter(twitterFeedAdapter);
 
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.d(TAG, "onLoad More and page is : "+page);
+                loadMoreData(page, view);
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        // Define the code block to be executed
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+                loadMoreData(0, recyclerView);
+            }
+        };
 
-
-        timeLinePresenter.loadTwitterFeed(twitterResponse -> {
-
-            Log.d(TAG, "Twitter Response Size = "+twitterResponse.size());
-            twitterResponses.addAll(twitterResponse);
-//            twitterFeedAdapter.notifyItemChanged(twitterFeedAdapter.getItemCount(),twitterResponse.size() - 1);
-            twitterFeedAdapter.notifyDataSetChanged();
-
-            return;
-        });
-
-
+        handler.postDelayed(runnableCode,TIME_OUT);
     }
+
+    private void loadMoreData(int offset, RecyclerView view) {
+            Log.d(TAG, "load More Data offset = "+offset);
+            timeLinePresenter.loadTwitterFeed(twitterResponse -> {
+            twitterResponses.addAll(twitterResponse);
+            view.post(() -> twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
+                    twitterResponses.size() - 1));
+                return;
+            });
+        }
 }

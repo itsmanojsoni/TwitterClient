@@ -26,12 +26,15 @@ public class TimeLinePresenter {
 
     private TwitterClient client;
 
-    private static final int count = 25;
-    private static final int sinceId = 1;
+//    private static final int count = 25;
+//    private static final int sinceId = 1;
     private Context context;
     private static final String TAG = "TimeLinePresenter";
 
     OnLoadTwitterFeedListener listener;
+    private int count = 15;
+    private Long sinceId = 1L;
+    private Long maxId = -1L;
 
     public interface OnLoadTwitterFeedListener {
          void onLoadTwitterFeed(List<TwitterResponse> response);
@@ -44,40 +47,37 @@ public class TimeLinePresenter {
     public void loadTwitterFeed(OnLoadTwitterFeedListener listener) {
         Log.d(TAG, "load Twitter Feed");
         TwitterApplication.getRestClient()
-                .getHomeTimeline(count, sinceId)
+                .getHomeTimeline(count, sinceId,maxId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<List<TwitterResponse>>() {
                     @Override
                     public void onCompleted() {
-
                         Log.d(TAG, "onComplete");
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
                         e.printStackTrace();
                         Log.d(TAG, "Error in loading Feed");
-
                         checkError();
                     }
 
                     @Override
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
-                        Log.d("TwitterPresenter", " Twitter Respnse is : " + twitterResponses.toString());
+                        if (twitterResponses.size() > 0 ) {
+                            Log.d("TwitterPresenter", "Twitter Respnse Size : " + twitterResponses.size());
+//                        maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
+                            maxId = twitterResponses.get(0).getId();
+                            Log.d(TAG, "The max ID is : " + maxId);
+//                      sinceId = twitterResponses.get(0).getId();
 
-                        Log.d(TAG, " Twitter Text = " + twitterResponses.get(0).getText());
-                        // Get all the data here just to be sure we can parse everything
-                        User user = twitterResponses.get(0).getUser();
+//                            Log.d(TAG, "The Max Id 1 : " + twitterResponses.get(twitterResponses.size() - 1).getId());
+////                            Log.d(TAG, "The Max Id 2 : " + twitterResponses.get(0).getId());
 
-                        Log.d(TAG, "Screen Name = " + user.getScreen_name());
-                        Log.d(TAG, "Name = " + user.getName());
-                        Log.d(TAG, "profile Image Url" + user.getProfile_image_url());
-
-                        listener.onLoadTwitterFeed(twitterResponses);
+                            listener.onLoadTwitterFeed(twitterResponses);
+                        }
 
                     }
                 });

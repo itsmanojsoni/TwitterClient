@@ -18,7 +18,7 @@ public class TwitterResponse {
     String retweet_count;
     User user;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -26,7 +26,7 @@ public class TwitterResponse {
         return created_at;
     }
 
-    String id;
+    Long id;
     String created_at;
 
 }
