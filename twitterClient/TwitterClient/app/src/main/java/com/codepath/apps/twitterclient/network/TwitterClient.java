@@ -42,7 +42,7 @@ import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_SECRET;
  * NOTE: You may want to rename this object based on the service i.e TwitterClient or FlickrClient
  * 
  */
-public class TwitterClient extends OAuthBaseClient {
+public class TwitterClient  {
 
 	// Where to get all the tokens - https://apps.twitter.com/app/14287608/keys
 
@@ -61,15 +61,17 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final String REST_CALLBACK_URL_TEMPLATE = "intent://%s#Intent;action=android.intent.action.VIEW;scheme=%s;package=%s;S.browser_fallback_url=%s;end";
 	private TwitterService twitterService;
 
+	private  static  TwitterClient twitterClient = null;
+
+	public static TwitterClient getInstance(Context context) {
+		if (twitterClient == null) {
+			twitterClient = new TwitterClient(context);
+		}
+		return twitterClient;
+	}
+
 
 	public TwitterClient(Context context) {
-		super(context, REST_API_INSTANCE,
-				REST_URL,
-				REST_CONSUMER_KEY,
-				REST_CONSUMER_SECRET,
-				String.format(REST_CALLBACK_URL_TEMPLATE, context.getString(R.string.intent_host),
-						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
-
 
 
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

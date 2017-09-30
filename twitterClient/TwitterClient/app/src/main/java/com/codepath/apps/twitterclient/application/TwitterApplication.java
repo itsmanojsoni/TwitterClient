@@ -35,6 +35,6 @@ public class TwitterApplication extends Application {
 	}
 
 	public static TwitterClient getRestClient() {
-		return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, TwitterApplication.context);
+		return (TwitterClient) TwitterClient.getInstance(TwitterApplication.context);
 	}
 }
