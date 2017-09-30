@@ -5,5 +5,12 @@
     <string name="login_label">Log in</string>
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">cprest</string>
+    <string name="twitter_string_second_abbreviation">%1$ds</string>
+    <string name="twitter_string_minute_abbreviation">%1$dm</string>
+    <string name="twitter_string_hour_abbreviation">%1$dh</string>
+    <string name="twitter_string_day_abbreviation">%1$dd</string>
+    <string name="twitter_string_week_abbreviation">%1$dw</string>
+
+    <string name="at">"@"</string>
 
 </resources>

@@ -2,14 +2,11 @@ package com.codepath.apps.twitterclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
-import com.codepath.apps.twitterclient.TwitterApplication;
 import com.codepath.apps.twitterclient.network.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 

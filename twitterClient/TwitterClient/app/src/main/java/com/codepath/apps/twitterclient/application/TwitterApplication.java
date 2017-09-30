@@ -1,4 +1,4 @@
-package com.codepath.apps.twitterclient;
+package com.codepath.apps.twitterclient.application;
 
 import com.codepath.apps.twitterclient.network.TwitterClient;
 import com.raizlabs.android.dbflow.config.FlowConfig;
@@ -28,6 +28,10 @@ public class TwitterApplication extends Application {
 		FlowLog.setMinimumLoggingLevel(FlowLog.Level.V);
 
 		TwitterApplication.context = this;
+	}
+
+	public static Context getContext() {
+		return context;
 	}
 
 	public static TwitterClient getRestClient() {
