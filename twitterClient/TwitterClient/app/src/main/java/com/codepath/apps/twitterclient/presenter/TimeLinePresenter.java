@@ -34,7 +34,6 @@ public class TimeLinePresenter {
     private int count = 20;
     private Long sinceId = 1L;
     private Long maxId = -1L;
-    private Map<Long,Boolean> myMap = new HashMap<>();
 
     public interface OnLoadTwitterFeedListener {
          void onLoadTwitterFeed(List<TwitterResponse> response);
@@ -66,27 +65,7 @@ public class TimeLinePresenter {
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
                         if (twitterResponses.size() > 0 ) {
-                            Log.d(TAG, "Twitter Respnse Size : " + twitterResponses.size());
-                        maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
-                            Long maxId1 = twitterResponses.get(0).getId();
-                            Long maxId2 = twitterResponses.get(twitterResponses.size() - 1).getId();
-
-                            Long minMaxId = Math.min(maxId1,maxId2);
-
-                            if (minMaxId.longValue() != maxId.longValue()) {
-                                Log.d(TAG, "Min Value is different");
-                            }
-
-                            // This needs to be removed
-                            for (int i = 0; i < twitterResponses.size(); i++) {
-
-                                if (!myMap.containsKey(twitterResponses.get(i))) {
-                                    myMap.put(twitterResponses.get(i).getId(), true);
-                                } else {
-                                    Log.d(TAG, "Key Alredy exist");
-                                    throw new RuntimeException("Key Exist");
-                                }
-                            }
+                            maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
                             listener.onLoadTwitterFeed(twitterResponses);
                         }
                     }
