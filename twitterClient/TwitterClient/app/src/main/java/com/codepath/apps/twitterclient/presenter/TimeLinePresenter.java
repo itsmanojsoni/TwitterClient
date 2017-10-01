@@ -72,6 +72,10 @@ public class TimeLinePresenter {
                 });
     }
 
+    public void resetMaxId() {
+        this.maxId = -1L;
+    }
+
     public void postTwitterStatus(String status, OnLoadTwitterFeedListener listener) {
 
         TwitterApplication.getRestClient()

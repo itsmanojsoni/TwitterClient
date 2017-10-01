@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,6 +44,10 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     private Handler handler = new Handler();
     private static final int TIME_OUT = 250;
 
+    private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +66,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
 
         recyclerView.setAdapter(twitterFeedAdapter);
 
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadMoreData();
@@ -76,6 +81,25 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
             composeDialogFragment.show(fm, "fragment_edit_name");
 
         });
+
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchTimelineAsync();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
     }
 
     @Override
@@ -115,5 +139,27 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
             twitterFeedAdapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(0);
         });
+    }
+
+
+    private void fetchTimelineAsync() {
+
+        twitterResponses.clear();
+        twitterFeedAdapter.notifyDataSetChanged();
+        scrollListener.resetState();
+        swipeContainer.setRefreshing(false);
+        recyclerView.scrollToPosition(0);
+        timeLinePresenter.resetMaxId();
+        loadMoreData();
+    }
+    public void clear() {
+        twitterResponses.clear();
+        twitterFeedAdapter.notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<TwitterResponse> list) {
+        twitterResponses.addAll(list);
+        twitterFeedAdapter.notifyDataSetChanged();
     }
 }
