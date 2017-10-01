@@ -1,37 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/topContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:orientation="horizontal">
-    <Button
-        android:id="@+id/canceButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Cancel" />
+        android:layout_alignParentLeft="true">
+        <Button
+            android:id="@+id/canceButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/Cancel" />
 
-    <TextView
-        android:id="@+id/sampleMsg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="16dp"
-        android:text="What's on Your Mind"
-        android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/tweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="8dp"
+            android:text="Tweet"
+            android:background="@color/colorTwitter"
+            android:textSize="15sp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@android:color/white"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvCharCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tweet"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="8dp"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            tool:text="123"/>
+
+    </RelativeLayout>
     
     <EditText
         android:id="@+id/etTweet"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_below="@+id/topContainer"
-        android:inputType="text"
-        android:imeOptions="actionDone"/>
+        android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+        android:imeOptions="actionDone"
+        android:hint="@string/statusHint"/>
+
 </RelativeLayout>

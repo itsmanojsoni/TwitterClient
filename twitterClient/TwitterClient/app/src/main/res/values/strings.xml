@@ -14,5 +14,6 @@
     <string name="at">"@"</string>
 
     <string name="Cancel">Cancel</string>
+    <string name="statusHint">What\'s on Your mind</string>
 
 </resources>

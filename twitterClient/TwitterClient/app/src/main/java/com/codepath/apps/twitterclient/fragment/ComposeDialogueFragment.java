@@ -2,9 +2,12 @@ package com.codepath.apps.twitterclient.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -22,6 +25,8 @@ import com.codepath.apps.twitterclient.R;
 import butterknife.BindView;
 
 import static android.R.attr.width;
+import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
+import static com.codepath.apps.twitterclient.R.id.tvCharCount;
 
 /**
  * Created by manoj on 9/30/17.
@@ -31,6 +36,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
 
     private EditText mEditText;
     private Button cancel;
+    private TextView charCount;
     // 1. Defines the listener interface with a method passing back data result.
     public interface ComposeTweetDialogListener {
         void onFinishEditDialog(String inputText);
@@ -57,6 +63,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             View view =  inflater.inflate(R.layout.fragment_compose_tweet, container);
             mEditText = view.findViewById(R.id.etTweet);
             mEditText.setOnEditorActionListener(this);
+            charCount   =   view.findViewById(R.id.tvCharCount);
             return view;
         }
 
@@ -75,6 +82,38 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             mEditText.requestFocus();
             getDialog().getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+
+            getActivity().getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
+
+            mEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count,
+                                              int after) {
+
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    charCount.setText(String.valueOf(count));
+                    if (count > 140) {
+                        mEditText.setTextColor(Color.parseColor("#FF0000"));
+                        charCount.setTextColor(Color.parseColor("#FF0000"));
+                    } else {
+
+                        mEditText.setTextColor(Color.parseColor("#FF000000"));
+                        charCount.setTextColor(Color.parseColor("#008000"));
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
 
         @Override
