@@ -12,7 +12,9 @@ import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.network.TwitterClient;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,6 +38,7 @@ public class TimeLinePresenter {
     private int count = 20;
     private Long sinceId = 1L;
     private Long maxId = -1L;
+    private Map<Long,Boolean> myMap = new HashMap<>();
 
     public interface OnLoadTwitterFeedListener {
          void onLoadTwitterFeed(List<TwitterResponse> response);
@@ -73,12 +76,18 @@ public class TimeLinePresenter {
                             Log.d(TAG, "The max ID is : " + maxId);
 //                      sinceId = twitterResponses.get(0).getId();
 
-//                            Log.d(TAG, "The Max Id 1 : " + twitterResponses.get(twitterResponses.size() - 1).getId());
-////                            Log.d(TAG, "The Max Id 2 : " + twitterResponses.get(0).getId());
+                            for (int i = 0; i < twitterResponses.size(); i++) {
+
+                                if (!myMap.containsKey(twitterResponses.get(i))) {
+                                    myMap.put(twitterResponses.get(i).getId(), true);
+                                } else {
+                                    Log.d(TAG, "Key Alredy exist");
+                                    throw new RuntimeException("Key Exist");
+                                }
+                            }
 
                             listener.onLoadTwitterFeed(twitterResponses);
                         }
-
                     }
                 });
 

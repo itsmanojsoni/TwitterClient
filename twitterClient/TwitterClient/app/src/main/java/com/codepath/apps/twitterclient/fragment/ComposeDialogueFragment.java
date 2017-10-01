@@ -1,8 +1,12 @@
 package com.codepath.apps.twitterclient.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +19,8 @@ import android.widget.TextView;
 import com.codepath.apps.twitterclient.R;
 
 import butterknife.BindView;
+
+import static android.R.attr.width;
 
 /**
  * Created by manoj on 9/30/17.
@@ -65,6 +71,35 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             getDialog().getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+
+//            DisplayMetrics displayMetrics = new DisplayMetrics();
+//            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+////            int height = pxToDp(displayMetrics.heightPixels);
+////            int width = pxToDp(displayMetrics.widthPixels);
+//
+//            int width = pxToDp(displayMetrics.widthPixels);
+//            int height = pxToDp (displayMetrics.heightPixels);
+//
+//            getDialog().getWindow().setLayout(width,height);
+
+
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
+
+    private int pxToDp(int px) {
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        float dp = px / (displayMetrics.densityDpi / 160f);
+        return Math.round(dp);
+    }
+
+    public  int convertSpToPixels(int dp, Context context) {
+        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+        return px;
+    }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

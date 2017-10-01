@@ -53,11 +53,6 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
 
         timeLinePresenter = new TimeLinePresenter(this);
 
-        Toast.makeText(this, "Time Line Activity", Toast.LENGTH_LONG).show();
-
-        String test = "Just a test to see if it is working";
-//      timeLinePresenter.postTwitterStatus(test);
-
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -73,7 +68,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d(TAG, "onLoad More and page is : " + page);
-                loadMoreData(page, view);
+                loadMoreData();
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
@@ -82,7 +77,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
             @Override
             public void onClick(View view) {
                 ComposeDialogueFragment.newInstance("Compose");
-                FragmentManager fm = getSupportFragmentManager();
+                FragmentManager fm = TimeLineActivity.this.getSupportFragmentManager();
                 ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
                 composeDialogFragment.show(fm, "fragment_edit_name");
 
@@ -94,27 +89,26 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     public void onResume() {
         super.onResume();
         // Define the code block to be executed
-        Runnable runnableCode = new Runnable() {
-            @Override
-            public void run() {
-                loadMoreData(0, recyclerView);
-            }
-        };
+//        Runnable runnableCode = new Runnable() {
+//            @Override
+//            public void run() {
+//                loadMoreData(0, recyclerView);
+//            }
+//        };
+//
+//        handler.postDelayed(runnableCode, TIME_OUT);
 
-        handler.postDelayed(runnableCode, TIME_OUT);
+        loadMoreData();
     }
 
-    private void loadMoreData(int offset, RecyclerView view) {
+    private void loadMoreData() {
         Log.d(TAG, "load More Data offset = " + offset);
         timeLinePresenter.loadTwitterFeed(twitterResponse -> {
             twitterResponses.addAll(twitterResponse);
-            view.post(new Runnable() {
-                @Override
-                public void run() {
-                    twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
-                            twitterResponses.size() - 1);
-//                    twitterFeedAdapter.notifyDataSetChanged();
-                }
+            recyclerView.post(() -> {
+//                    twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
+//                            twitterResponses.size() - 1);
+                twitterFeedAdapter.notifyDataSetChanged();
             });
             return;
         });
