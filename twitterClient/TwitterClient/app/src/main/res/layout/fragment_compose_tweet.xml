@@ -3,17 +3,35 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!--<Button-->
-        <!--android:id="@+id/testButton"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="Test Button"/>-->
+    <LinearLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal">
+    <Button
+        android:id="@+id/canceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Cancel" />
+
+    <TextView
+        android:id="@+id/sampleMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:text="What's on Your Mind"
+        android:textSize="20sp"/>
+
+    </LinearLayout>
     
     <EditText
         android:id="@+id/etTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/topContainer"
         android:inputType="text"
         android:imeOptions="actionDone"/>
-
 </RelativeLayout>

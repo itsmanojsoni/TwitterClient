@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import static android.R.attr.width;
 public class ComposeDialogueFragment extends DialogFragment implements TextView.OnEditorActionListener {
 
     private EditText mEditText;
+    private Button cancel;
     // 1. Defines the listener interface with a method passing back data result.
     public interface ComposeTweetDialogListener {
         void onFinishEditDialog(String inputText);
@@ -63,6 +65,9 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             super.onViewCreated(view, savedInstanceState);
             // Get field from view
             mEditText = (EditText) view.findViewById(R.id.etTweet);
+
+            cancel = view.findViewById(R.id.canceButton);
+
             // Fetch arguments from bundle and set title
             String title = getArguments().getString("title", "Compose");
             getDialog().setTitle(title);
@@ -76,30 +81,15 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
         public void onResume() {
             super.onResume();
 
-//            DisplayMetrics displayMetrics = new DisplayMetrics();
-//            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-////            int height = pxToDp(displayMetrics.heightPixels);
-////            int width = pxToDp(displayMetrics.widthPixels);
-//
-//            int width = pxToDp(displayMetrics.widthPixels);
-//            int height = pxToDp (displayMetrics.heightPixels);
-//
-//            getDialog().getWindow().setLayout(width,height);
-
-
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
         }
-
-    private int pxToDp(int px) {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float dp = px / (displayMetrics.densityDpi / 160f);
-        return Math.round(dp);
-    }
-
-    public  int convertSpToPixels(int dp, Context context) {
-        int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
-        return px;
-    }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
