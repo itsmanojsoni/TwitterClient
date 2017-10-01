@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".activities.LoginActivity$TimeLineActivity" />
         <activity android:name=".activities.TimeLineActivity" />
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.TwitterDetailActivity"></activity>
     </application>
 
 </manifest>

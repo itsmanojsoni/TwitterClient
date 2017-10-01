@@ -1,6 +1,7 @@
 package com.codepath.apps.twitterclient.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,8 @@ import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
 import com.codepath.apps.twitterclient.fragment.ComposeDialogueFragment;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +65,18 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         recyclerView.setLayoutManager(layoutManager);
 
         twitterFeedAdapter = new TwitterFeedAdapter(getApplicationContext(), twitterResponses,
-                position -> Log.d(TAG, "Twitter Item Clicked"));
+                new TwitterFeedAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Log.d(TAG, "Twitter Item Clicked");
+
+                        Intent intent = new Intent(getApplicationContext(), TwitterDetailActivity.class);
+                        TwitterResponse twitterResponse = twitterResponses.get(position);
+                        intent.putExtra("twitter", Parcels.wrap(twitterResponse));
+                        startActivity(intent);
+
+                    }
+                });
 
         recyclerView.setAdapter(twitterFeedAdapter);
 
@@ -85,14 +99,11 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                fetchTimelineAsync();
-            }
+        swipeContainer.setOnRefreshListener(() -> {
+            // Your code to refresh the list here.
+            // Make sure you call swipeContainer.setRefreshing(false)
+            // once the network request has completed successfully.
+            fetchTimelineAsync();
         });
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -106,12 +117,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     public void onResume() {
         super.onResume();
         // Define the code block to be executed
-        Runnable runnableCode = new Runnable() {
-            @Override
-            public void run() {
-                loadMoreData();
-            }
-        };
+        Runnable runnableCode = () -> loadMoreData();
 
         handler.postDelayed(runnableCode,TIME_OUT);
 
@@ -143,23 +149,16 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
 
 
     private void fetchTimelineAsync() {
-
+        clear();
+        loadMoreData();
+    }
+    public void clear() {
         twitterResponses.clear();
         twitterFeedAdapter.notifyDataSetChanged();
         scrollListener.resetState();
         swipeContainer.setRefreshing(false);
         recyclerView.scrollToPosition(0);
         timeLinePresenter.resetMaxId();
-        loadMoreData();
-    }
-    public void clear() {
-        twitterResponses.clear();
-        twitterFeedAdapter.notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
-    public void addAll(List<TwitterResponse> list) {
-        twitterResponses.addAll(list);
-        twitterFeedAdapter.notifyDataSetChanged();
-    }
 }

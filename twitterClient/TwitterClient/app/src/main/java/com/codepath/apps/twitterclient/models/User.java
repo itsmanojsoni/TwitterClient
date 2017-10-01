@@ -1,13 +1,19 @@
 
 package com.codepath.apps.twitterclient.models;
-public class User {
 
+import org.parceler.Parcel;
+
+@Parcel
+public class User {
     String name;
     String id;
     String screen_name;
     String profile_image_url;
     boolean verified;
 
+    public User() {
+
+    }
 
     public String getName() {
         return name;

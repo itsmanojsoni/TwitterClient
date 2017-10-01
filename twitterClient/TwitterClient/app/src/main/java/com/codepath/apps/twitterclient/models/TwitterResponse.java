@@ -1,6 +1,20 @@
 package com.codepath.apps.twitterclient.models;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class TwitterResponse {
+
+    String text;
+    String retweet_count;
+    User user;
+
+    Long id;
+    String created_at;
+
+    public TwitterResponse () {
+
+    }
 
     public String getText() {
         return text;
@@ -14,10 +28,6 @@ public class TwitterResponse {
         return user;
     }
 
-    String text;
-    String retweet_count;
-    User user;
-
     public Long getId() {
         return id;
     }
@@ -25,8 +35,5 @@ public class TwitterResponse {
     public String getCreated_at() {
         return created_at;
     }
-
-    Long id;
-    String created_at;
 
 }
