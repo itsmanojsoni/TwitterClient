@@ -5,17 +5,14 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.codepath.apps.twitterclient.R;
+
 import com.codepath.apps.twitterclient.models.TwitterResponse;
-import com.codepath.oauth.OAuthBaseClient;
-import com.github.scribejava.apis.TwitterApi;
-import com.github.scribejava.core.builder.api.BaseApi;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-import java.io.IOException;
+
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -31,8 +28,7 @@ import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 import se.akerfeldt.okhttp.signpost.SigningInterceptor;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_KEY;
-import static com.github.scribejava.core.model.OAuthConstants.CONSUMER_SECRET;
+
 
 /*
  * 
@@ -50,7 +46,7 @@ public class TwitterClient  {
 
 	// Where to get all the tokens - https://apps.twitter.com/app/14287608/keys
 
-	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
+//	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance(); // Change this
 	public static final String REST_URL = "https://api.twitter.com/"; // Change this, base API URL
 	public static final String REST_CONSUMER_KEY = "J9kMDIZR1EB2tyoLdvuIr2qwS";       // Change this
 	public static final String REST_CONSUMER_SECRET = "n2a9PK8bxNwYQhluHRpbWtJ8um3aqcqOt4JAD16y6vykS4v4ZQ"; // Change this
@@ -79,13 +75,8 @@ public class TwitterClient  {
 
 		SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(context);
 
-
 		String token = mSettings.getString("token",null);
 		String tokenSecret = mSettings.getString("tokenSecret",null);
-
-		Log.d(TAG, "Shared Preference data token = "+token);
-		Log.d(TAG, "Shared Preference data tokenSecret = "+tokenSecret);
-
 
 
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -114,7 +105,7 @@ public class TwitterClient  {
 		if (maxId > 0 ) {
 			return  twitterService.getHomeTimeLineMax(count, (maxId - 1));
 		} else {
-			return  twitterService.getHomeTimeLine(count);
+			return  twitterService.getHomeTimeLineSince(count,sinceId);
 		}
 	}
 

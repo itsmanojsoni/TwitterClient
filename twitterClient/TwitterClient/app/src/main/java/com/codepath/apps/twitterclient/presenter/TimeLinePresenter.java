@@ -20,21 +20,17 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Created by manoj on 9/28/17.
  */
 
 public class TimeLinePresenter {
 
-
-    private TwitterClient client;
-
-//    private static final int count = 25;
-//    private static final int sinceId = 1;
     private Context context;
     private static final String TAG = "TimeLinePresenter";
 
-    OnLoadTwitterFeedListener listener;
     private int count = 20;
     private Long sinceId = 1L;
     private Long maxId = -1L;
@@ -72,10 +68,16 @@ public class TimeLinePresenter {
                         if (twitterResponses.size() > 0 ) {
                             Log.d(TAG, "Twitter Respnse Size : " + twitterResponses.size());
                         maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
-//                            maxId = twitterResponses.get(0).getId();
-                            Log.d(TAG, "The max ID is : " + maxId);
-//                      sinceId = twitterResponses.get(0).getId();
+                            Long maxId1 = twitterResponses.get(0).getId();
+                            Long maxId2 = twitterResponses.get(twitterResponses.size() - 1).getId();
 
+                            Long minMaxId = Math.min(maxId1,maxId2);
+
+                            if (minMaxId.longValue() != maxId.longValue()) {
+                                Log.d(TAG, "Min Value is different");
+                            }
+
+                            // This needs to be removed
                             for (int i = 0; i < twitterResponses.size(); i++) {
 
                                 if (!myMap.containsKey(twitterResponses.get(i))) {
@@ -85,12 +87,10 @@ public class TimeLinePresenter {
                                     throw new RuntimeException("Key Exist");
                                 }
                             }
-
                             listener.onLoadTwitterFeed(twitterResponses);
                         }
                     }
                 });
-
     }
 
     public void postTwitterStatus(String status, OnLoadTwitterFeedListener listener) {

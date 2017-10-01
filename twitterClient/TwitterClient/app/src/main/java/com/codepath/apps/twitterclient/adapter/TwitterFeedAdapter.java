@@ -34,7 +34,6 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
 
     public TwitterFeedAdapter(Context context, List<TwitterResponse> list,
                               OnItemClickListener onItemClickListener) {
-        Log.d(TAG, "Twitter Feed Adapter Created");
         this.context = context;
         this.list = list;
         this.onItemClickListener = onItemClickListener;
@@ -61,19 +60,12 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
 
         public void bind(final TwitterResponse model,
                          final OnItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onItemClick(getLayoutPosition());
-
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onItemClick(getLayoutPosition()));
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreteView Holder");
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -90,18 +82,29 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         TwitterResponse item = list.get(position);
 
-        Log.d(TAG, "onBindView Holder and position is : "+position);
-
         //Todo: Setup viewholder for item 
         holder.bind(item, onItemClickListener);
+
+        bindData (holder,item);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private void bindData(ViewHolder holder, TwitterResponse item) {
         User user = item.getUser();
 
         holder.tvUserName.setText(user.getName());
         holder.tvScreenName.setText(user.getScreen_name());
         holder.tvStatusText.setText(item.getText());
-
-        Log.d(TAG, "Status Text = "+item.getText());
-//        holder.tvTime.setText(StringUtil.formatShortHumanTimestamp(Long.valueOf(item.getCreated_at())));
 
         Long createdTimeStamp = System.currentTimeMillis();
         try {
@@ -111,20 +114,7 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         }
 
         String timeDuration = StringUtil.formatShortHumanTimestamp(createdTimeStamp);
-        Log.d(TAG, "Time Duration = "+timeDuration);
         holder.tvTime.setText(timeDuration);
         Glide.with(context).load(user.getProfile_image_url()).dontAnimate().into(holder.ivProfileImage);
-    }
-
-
-    @Override
-    public int getItemCount() {
-        Log.d(TAG, "Twitter Adapter Size = "+list.size());
-        return list.size();
-    }
-
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
     }
 }

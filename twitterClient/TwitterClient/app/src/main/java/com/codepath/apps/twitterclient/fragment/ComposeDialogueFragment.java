@@ -83,12 +83,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
 
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismiss();
-                }
-            });
+            cancel.setOnClickListener(view -> dismiss());
         }
 
     @Override

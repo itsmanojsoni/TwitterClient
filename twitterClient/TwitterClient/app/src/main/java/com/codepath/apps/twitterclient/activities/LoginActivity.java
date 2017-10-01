@@ -48,9 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Toast.makeText(this,"Login Activity",Toast.LENGTH_LONG).show();
-
-        mWebView = (WebView)findViewById(R.id.wvTwitter);
+        mWebView = findViewById(R.id.wvTwitter);
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -70,19 +68,18 @@ public class LoginActivity extends AppCompatActivity {
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         editor = mSettings.edit();
 
-        String token = mSettings.getString("token",null);
-        String tokenSecret = mSettings.getString("tokenSecret",null);
+//        String token = mSettings.getString("token",null);
+//        String tokenSecret = mSettings.getString("tokenSecret",null);
+//
+//        if (token == null || tokenSecret == null) {
+//            initTwitter();
+//        } else {
+//
+//            Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
+//            startActivity(intent);
+//        }
 
-        Log.d(TAG, "Shared Preference data token = "+token);
-        Log.d(TAG, "Shared Preference data tokenSecret = "+tokenSecret);
-
-        if (token == null || tokenSecret == null) {
-            initTwitter();
-        } else {
-
-            Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
-            startActivity(intent);
-        }
+        initTwitter();
 
     }
 
@@ -104,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 try {
                     mAuthUrl = mProvider.retrieveRequestToken(mConsumer, CALLBACK);
-                    Log.d(TAG, "mAuthUrl " + mAuthUrl);
                 } catch (OAuthMessageSignerException e) {
                     e.printStackTrace();
                 } catch (OAuthNotAuthorizedException e) {
@@ -119,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void v) {
-
                 if (!TextUtils.isEmpty(mAuthUrl)) {
                     mWebView.loadUrl(mAuthUrl);
                 }
@@ -143,16 +138,9 @@ public class LoginActivity extends AppCompatActivity {
                     String token = mConsumer.getToken();
                     String tokenSecret = mConsumer.getTokenSecret();
 
-
                     editor.putString("token",token);
                     editor.putString("tokenSecret",tokenSecret);
                     editor.apply();
-                    Log.d(TAG, "Shared Preference Saved data");
-//                    PrefUtil.setTwitterToken(getActivity(), token);
-//                    PrefUtil.setTwitterTokenSecret(getActivity(), tokenSecret);
-
-                    Log.d(TAG, "Token = " + token);
-                    Log.d(TAG, "Token Secret = " + tokenSecret);
 
                 } catch (OAuthMessageSignerException e) {
                     e.printStackTrace();
@@ -168,14 +156,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-
                 Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
                 startActivity(intent);
-
-
             }
         }.execute();
-
     }
-
 }

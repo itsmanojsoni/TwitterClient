@@ -25,7 +25,7 @@ public interface TwitterService {
     Observable<List<TwitterResponse>> getHomeTimeLineMax(@Query("count") int count, @Query("max_id") Long maxId);
 
     @GET("1.1/statuses/home_timeline.json")
-    Observable<List<TwitterResponse>> getHomeTimeLineSince(@Query("since_id") Long sinceId);
+    Observable<List<TwitterResponse>> getHomeTimeLineSince(@Query("count") int count,@Query("since_id") Long sinceId);
 
 
     @FormUrlEncoded

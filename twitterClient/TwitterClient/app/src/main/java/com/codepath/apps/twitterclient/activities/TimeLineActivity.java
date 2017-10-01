@@ -27,7 +27,6 @@ import butterknife.ButterKnife;
 import static android.R.attr.offset;
 import static android.net.sip.SipErrorCode.TIME_OUT;
 
-
 public class TimeLineActivity extends AppCompatActivity implements ComposeDialogueFragment.ComposeTweetDialogListener {
 
     private static final String TAG = "TimeLineActivity";
@@ -42,7 +41,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     FloatingActionButton compose;
 
     private Handler handler = new Handler();
-    private static final int TIME_OUT = 2000;
+    private static final int TIME_OUT = 250;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +49,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         setContentView(R.layout.activity_time_line);
         ButterKnife.bind(this);
 
-
         timeLinePresenter = new TimeLinePresenter(this);
-
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -67,21 +64,17 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d(TAG, "onLoad More and page is : " + page);
                 loadMoreData();
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
 
-        compose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ComposeDialogueFragment.newInstance("Compose");
-                FragmentManager fm = TimeLineActivity.this.getSupportFragmentManager();
-                ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
-                composeDialogFragment.show(fm, "fragment_edit_name");
+        compose.setOnClickListener(view -> {
+            ComposeDialogueFragment.newInstance("Compose");
+            FragmentManager fm = TimeLineActivity.this.getSupportFragmentManager();
+            ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
+            composeDialogFragment.show(fm, "fragment_edit_name");
 
-            }
         });
     }
 
@@ -89,16 +82,15 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     public void onResume() {
         super.onResume();
         // Define the code block to be executed
-//        Runnable runnableCode = new Runnable() {
-//            @Override
-//            public void run() {
-//                loadMoreData(0, recyclerView);
-//            }
-//        };
-//
-//        handler.postDelayed(runnableCode, TIME_OUT);
+        Runnable runnableCode = new Runnable() {
+            @Override
+            public void run() {
+                loadMoreData();
+            }
+        };
 
-        loadMoreData();
+        handler.postDelayed(runnableCode,TIME_OUT);
+
     }
 
     private void loadMoreData() {
@@ -118,19 +110,10 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
     public void onFinishEditDialog(String inputText) {
 
         Log.d(TAG, "The input Text is : " + inputText);
-        timeLinePresenter.postTwitterStatus(inputText, new TimeLinePresenter.OnLoadTwitterFeedListener() {
-            @Override
-            public void onLoadTwitterFeed(List<TwitterResponse> response) {
-
-
-//                twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
-//                        response.size() - 1);
-                twitterResponses.add(0,response.get(0));
-//                twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
-//                        twitterResponses.size() - 1);
-                twitterFeedAdapter.notifyDataSetChanged();
-                recyclerView.scrollToPosition(0);
-            }
+        timeLinePresenter.postTwitterStatus(inputText, response -> {
+            twitterResponses.add(0,response.get(0));
+            twitterFeedAdapter.notifyDataSetChanged();
+            recyclerView.scrollToPosition(0);
         });
     }
 }

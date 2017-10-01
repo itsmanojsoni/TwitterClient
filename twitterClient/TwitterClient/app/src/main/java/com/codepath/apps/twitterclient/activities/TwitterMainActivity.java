@@ -24,29 +24,21 @@ public class TwitterMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.bnLogin);
 
-
+        // Shared Pref to store share token and token String
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-
 
         String token = mSettings.getString("token",null);
         String tokenSecret = mSettings.getString("tokenSecret",null);
 
-        Log.d(TAG, "Shared Preference data token = "+token);
-        Log.d(TAG, "Shared Preference data tokenSecret = "+tokenSecret);
-
         if (token == null || tokenSecret == null) {
 
             button.setOnClickListener(view -> {
-
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
             });
-
         } else {
-
             Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
             startActivity(intent);
         }
-
     }
 }
