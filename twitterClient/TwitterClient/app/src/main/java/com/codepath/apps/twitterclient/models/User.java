@@ -11,6 +11,12 @@ public class User {
     String profile_image_url;
     boolean verified;
 
+    public Long getFavourites_count() {
+        return favourites_count;
+    }
+
+    Long favourites_count;
+
     public User() {
 
     }

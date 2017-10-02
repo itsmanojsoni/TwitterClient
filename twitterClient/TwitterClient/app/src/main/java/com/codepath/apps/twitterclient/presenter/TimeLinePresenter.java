@@ -20,6 +20,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static android.os.Build.VERSION_CODES.M;
 
 /**
@@ -65,6 +66,24 @@ public class TimeLinePresenter {
                     public void onNext(List<TwitterResponse> twitterResponses) {
 
                         if (twitterResponses.size() > 0 ) {
+
+                            for (int i = 0; i < twitterResponses.size(); i++) {
+                                if (twitterResponses.get(i).getEntities().getMedia() != null) {
+                                    Log.d(TAG, "Media is not NULL and position is : "+i);
+                                    String url = twitterResponses.get(i).getEntities().getMedia().
+                                            get(0).getMedia_url_https();
+
+                                    String type = twitterResponses.get(i).getEntities().getMedia().
+                                            get(0).getType();
+
+                                    Log.d(TAG, "The Type is : "+type);
+
+                                    if (url.endsWith(".mp4")) {
+                                        Log.d(TAG, "Oh! There is a Video");
+                                    }
+
+                                }
+                            }
                             maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
                             listener.onLoadTwitterFeed(twitterResponses);
                         }

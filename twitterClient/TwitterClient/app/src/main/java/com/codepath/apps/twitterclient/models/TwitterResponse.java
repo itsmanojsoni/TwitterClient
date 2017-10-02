@@ -6,8 +6,14 @@ import org.parceler.Parcel;
 public class TwitterResponse {
 
     String text;
-    String retweet_count;
+    Long retweet_count;
     User user;
+
+    public Entities getEntities() {
+        return entities;
+    }
+
+    Entities entities;
 
     Long id;
     String created_at;
@@ -20,7 +26,7 @@ public class TwitterResponse {
         return text;
     }
 
-    public String getRetweet_count() {
+    public Long getRetweet_count() {
         return retweet_count;
     }
 

@@ -16,6 +16,8 @@ import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.util.StringUtil;
 import com.codepath.apps.twitterclient.util.TimeUtil;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.util.List;
 
@@ -47,6 +49,8 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         TextView tvScreenName;
         TextView tvUserName;
         TextView tvTime;
+        TextView reTweet;
+        TextView like;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -56,6 +60,8 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvUserName = itemView.findViewById(R.id.tvUserName);
             tvTime  = itemView.findViewById(R.id.tvTime);
+            reTweet = itemView.findViewById(R.id.retweetText);
+            like = itemView.findViewById(R.id.heartText);
         }
 
         public void bind(final TwitterResponse model,
@@ -105,6 +111,14 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         holder.tvUserName.setText(user.getName());
         holder.tvScreenName.setText(user.getScreen_name());
         holder.tvStatusText.setText(item.getText());
+
+        if (item.getRetweet_count() != null) {
+            holder.reTweet.setText(String.valueOf(item.getRetweet_count()));
+        }
+
+        if (item.getUser().getFavourites_count() != null) {
+            holder.like.setText(String.valueOf(item.getUser().getFavourites_count()));
+        }
 
         Long createdTimeStamp = System.currentTimeMillis();
         try {
