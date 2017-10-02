@@ -49,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mWebView = findViewById(R.id.wvTwitter);
-        mWebView.setWebViewClient(new WebViewClient(){
+        mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.startsWith("oauth")){
+                if (url.startsWith("oauth")) {
                     Uri uri = Uri.parse(url);
                     onOAuthCallback(uri);
                     return true;
@@ -68,19 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         editor = mSettings.edit();
 
-//        String token = mSettings.getString("token",null);
-//        String tokenSecret = mSettings.getString("tokenSecret",null);
-//
-//        if (token == null || tokenSecret == null) {
-//            initTwitter();
-//        } else {
-//
-//            Intent intent = new Intent(getApplicationContext(), TimeLineActivity.class);
-//            startActivity(intent);
-//        }
-
         initTwitter();
-
     }
 
 
@@ -138,8 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                     String token = mConsumer.getToken();
                     String tokenSecret = mConsumer.getTokenSecret();
 
-                    editor.putString("token",token);
-                    editor.putString("tokenSecret",tokenSecret);
+                    editor.putString("token", token);
+                    editor.putString("tokenSecret", tokenSecret);
                     editor.apply();
 
                 } catch (OAuthMessageSignerException e) {

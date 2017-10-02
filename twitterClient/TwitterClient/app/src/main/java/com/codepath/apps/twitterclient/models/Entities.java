@@ -26,7 +26,12 @@ public class Entities {
     @Parcel
     public static class Media {
 
-        public Media () {
+        String display_url;
+        String expanded_url;
+        String media_url;
+        String media_url_https;
+
+        public Media() {
 
         }
 
@@ -45,11 +50,6 @@ public class Entities {
         public String getMedia_url_https() {
             return media_url_https;
         }
-
-        String display_url;
-        String expanded_url;
-        String media_url;
-        String media_url_https;
 
         public String getType() {
             return type;

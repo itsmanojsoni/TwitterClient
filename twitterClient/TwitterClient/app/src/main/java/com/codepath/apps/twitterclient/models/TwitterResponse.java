@@ -8,12 +8,14 @@ public class TwitterResponse {
     String text;
     Long retweet_count;
     User user;
+    Long id;
+    String created_at;
+    Long favorite_count;
 
     public Long getFavorite_count() {
         return favorite_count;
     }
 
-    Long favorite_count;
 
     public Entities getEntities() {
         return entities;
@@ -21,10 +23,8 @@ public class TwitterResponse {
 
     Entities entities;
 
-    Long id;
-    String created_at;
 
-    public TwitterResponse () {
+    public TwitterResponse() {
 
     }
 

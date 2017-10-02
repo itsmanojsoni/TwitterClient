@@ -2,7 +2,6 @@ package com.codepath.apps.twitterclient.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.util.StringUtil;
 import com.codepath.apps.twitterclient.util.TimeUtil;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.List;
@@ -59,7 +56,7 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
             tvStatusText = itemView.findViewById(R.id.tvStatusText);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvUserName = itemView.findViewById(R.id.tvUserName);
-            tvTime  = itemView.findViewById(R.id.tvTime);
+            tvTime = itemView.findViewById(R.id.tvTime);
             reTweet = itemView.findViewById(R.id.retweetText);
             like = itemView.findViewById(R.id.heartText);
         }
@@ -91,7 +88,7 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
         //Todo: Setup viewholder for item 
         holder.bind(item, onItemClickListener);
 
-        bindData (holder,item);
+        bindData(holder, item);
     }
 
 

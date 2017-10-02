@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterclient.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
@@ -31,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.R.attr.offset;
-import static android.net.sip.SipErrorCode.TIME_OUT;
 
 public class TimeLineActivity extends AppCompatActivity implements ComposeDialogueFragment.ComposeTweetDialogListener {
 
@@ -73,17 +68,12 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         recyclerView.setLayoutManager(layoutManager);
 
         twitterFeedAdapter = new TwitterFeedAdapter(getApplicationContext(), twitterResponses,
-                new TwitterFeedAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Log.d(TAG, "Twitter Item Clicked");
+                position -> {
+                    Intent intent = new Intent(getApplicationContext(), TwitterDetailActivity.class);
+                    TwitterResponse twitterResponse = twitterResponses.get(position);
+                    intent.putExtra("twitter", Parcels.wrap(twitterResponse));
+                    startActivity(intent);
 
-                        Intent intent = new Intent(getApplicationContext(), TwitterDetailActivity.class);
-                        TwitterResponse twitterResponse = twitterResponses.get(position);
-                        intent.putExtra("twitter", Parcels.wrap(twitterResponse));
-                        startActivity(intent);
-
-                    }
                 });
 
         recyclerView.setAdapter(twitterFeedAdapter);
@@ -105,12 +95,9 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         });
 
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer = findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(() -> {
-            // Your code to refresh the list here.
-            // Make sure you call swipeContainer.setRefreshing(false)
-            // once the network request has completed successfully.
             fetchTimelineAsync();
         });
         // Configure the refreshing colors
@@ -127,7 +114,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         // Define the code block to be executed
         Runnable runnableCode = () -> loadMoreData();
 
-        handler.postDelayed(runnableCode,TIME_OUT);
+        handler.postDelayed(runnableCode, TIME_OUT);
 
     }
 
@@ -136,8 +123,6 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         timeLinePresenter.loadTwitterFeed(twitterResponse -> {
             twitterResponses.addAll(twitterResponse);
             recyclerView.post(() -> {
-//                    twitterFeedAdapter.notifyItemRangeInserted(twitterFeedAdapter.getItemCount(),
-//                            twitterResponses.size() - 1);
                 twitterFeedAdapter.notifyDataSetChanged();
             });
             return;
@@ -146,10 +131,8 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
 
     @Override
     public void onFinishEditDialog(String inputText) {
-
-        Log.d(TAG, "The input Text is : " + inputText);
         timeLinePresenter.postTwitterStatus(inputText, response -> {
-            twitterResponses.add(0,response.get(0));
+            twitterResponses.add(0, response.get(0));
             twitterFeedAdapter.notifyDataSetChanged();
             recyclerView.scrollToPosition(0);
         });
@@ -160,6 +143,7 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         clear();
         loadMoreData();
     }
+
     public void clear() {
         twitterResponses.clear();
         twitterFeedAdapter.notifyDataSetChanged();

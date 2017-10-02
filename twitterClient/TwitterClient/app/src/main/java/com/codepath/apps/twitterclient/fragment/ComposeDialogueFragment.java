@@ -37,6 +37,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
     private EditText mEditText;
     private Button cancel;
     private TextView charCount;
+
     // 1. Defines the listener interface with a method passing back data result.
     public interface ComposeTweetDialogListener {
         void onFinishEditDialog(String inputText);
@@ -44,91 +45,91 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
 
 
     public ComposeDialogueFragment() {
-            // Empty constructor is required for DialogFragment
-            // Make sure not to add arguments to the constructor
-            // Use `newInstance` instead as shown below
+        // Empty constructor is required for DialogFragment
+        // Make sure not to add arguments to the constructor
+        // Use `newInstance` instead as shown below
+    }
+
+    public static ComposeDialogueFragment newInstance(String title) {
+        ComposeDialogueFragment frag = new ComposeDialogueFragment();
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        frag.setArguments(args);
+        return frag;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_compose_tweet, container);
+        mEditText = view.findViewById(R.id.etTweet);
+        mEditText.setOnEditorActionListener(this);
+        charCount = view.findViewById(R.id.tvCharCount);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Get field from view
+        mEditText = (EditText) view.findViewById(R.id.etTweet);
+
+        if (mEditText != null) {
+            mEditText.setLines(5);
+            mEditText.setHorizontallyScrolling(false);
         }
 
-        public static ComposeDialogueFragment newInstance(String title) {
-            ComposeDialogueFragment frag = new ComposeDialogueFragment();
-            Bundle args = new Bundle();
-            args.putString("title", title);
-            frag.setArguments(args);
-            return frag;
-        }
+        cancel = view.findViewById(R.id.canceButton);
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View view =  inflater.inflate(R.layout.fragment_compose_tweet, container);
-            mEditText = view.findViewById(R.id.etTweet);
-            mEditText.setOnEditorActionListener(this);
-            charCount   =   view.findViewById(R.id.tvCharCount);
-            return view;
-        }
+        // Fetch arguments from bundle and set title
+        String title = getArguments().getString("title", "Compose");
+        getDialog().setTitle(title);
+        // Show soft keyboard automatically and request focus to field
+        mEditText.requestFocus();
+        getDialog().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-        @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-            // Get field from view
-            mEditText = (EditText) view.findViewById(R.id.etTweet);
 
-            if (mEditText != null) {
-                mEditText.setLines(5);
-                mEditText.setHorizontallyScrolling(false);
+        getActivity().getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
+
+        mEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+
             }
 
-            cancel = view.findViewById(R.id.canceButton);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            // Fetch arguments from bundle and set title
-            String title = getArguments().getString("title", "Compose");
-            getDialog().setTitle(title);
-            // Show soft keyboard automatically and request focus to field
-            mEditText.requestFocus();
-            getDialog().getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                charCount.setText(String.valueOf(count));
+                if (count > 140) {
+                    mEditText.setTextColor(Color.parseColor("#FF0000"));
+                    charCount.setTextColor(Color.parseColor("#FF0000"));
+                } else {
 
-
-            getActivity().getWindow().setSoftInputMode(SOFT_INPUT_ADJUST_PAN);
-
-            mEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count,
-                                              int after) {
-
-
+                    mEditText.setTextColor(Color.parseColor("#FF000000"));
+                    charCount.setTextColor(Color.parseColor("#008000"));
                 }
+            }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                    charCount.setText(String.valueOf(count));
-                    if (count > 140) {
-                        mEditText.setTextColor(Color.parseColor("#FF0000"));
-                        charCount.setTextColor(Color.parseColor("#FF0000"));
-                    } else {
+            }
+        });
 
-                        mEditText.setTextColor(Color.parseColor("#FF000000"));
-                        charCount.setTextColor(Color.parseColor("#008000"));
-                    }
-                }
+    }
 
-                @Override
-                public void afterTextChanged(Editable editable) {
+    @Override
+    public void onResume() {
+        super.onResume();
 
-                }
-            });
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-
-            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-            cancel.setOnClickListener(view -> dismiss());
-        }
+        cancel.setOnClickListener(view -> dismiss());
+    }
 
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

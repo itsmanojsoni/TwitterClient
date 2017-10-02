@@ -11,13 +11,12 @@ import java.util.Date;
 
 public class TimeUtil {
 
-    public static long getTimeInMills(String time) throws ParseException
-    {
+    public static long getTimeInMills(String time) throws ParseException {
         SimpleDateFormat sdf;
         Date d = null;
         try {
             sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
-             d = sdf.parse(time);
+            d = sdf.parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -30,17 +30,13 @@ public class StringUtil {
         Context context = TwitterApplication.getContext();
         if (seconds < 60) {
             return context.getString(R.string.twitter_string_second_abbreviation, seconds);
-        }
-        else if (minutes < 60) {
+        } else if (minutes < 60) {
             return context.getString(R.string.twitter_string_minute_abbreviation, minutes);
-        }
-        else if (hours < 24) {
+        } else if (hours < 24) {
             return context.getString(R.string.twitter_string_hour_abbreviation, hours);
-        }
-        else if (days < 7) {
+        } else if (days < 7) {
             return context.getString(R.string.twitter_string_day_abbreviation, days);
-        }
-        else {
+        } else {
             return context.getString(R.string.twitter_string_week_abbreviation, days / 7);
         }
     }
