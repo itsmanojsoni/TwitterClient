@@ -6,12 +6,30 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.twitterclient.activities.TimeLineActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/colorTwitter"
+        android:theme="@style/AppTheme">
+
+        <ImageView
+            android:id="@+id/twitterTitleImage"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/ic_toolbar"/>
+
+    </android.support.v7.widget.Toolbar>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvTwitterClient"

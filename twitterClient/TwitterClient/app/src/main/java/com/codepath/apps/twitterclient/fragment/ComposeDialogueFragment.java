@@ -73,6 +73,11 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             // Get field from view
             mEditText = (EditText) view.findViewById(R.id.etTweet);
 
+            if (mEditText != null) {
+                mEditText.setLines(5);
+                mEditText.setHorizontallyScrolling(false);
+            }
+
             cancel = view.findViewById(R.id.canceButton);
 
             // Fetch arguments from bundle and set title

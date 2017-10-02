@@ -57,7 +57,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_below="@+id/topContainer"
-        android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+        android:inputType="textAutoCorrect|textCapSentences"
         android:imeOptions="actionDone"
         android:hint="@string/statusHint"/>
 

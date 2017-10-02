@@ -9,6 +9,12 @@ public class TwitterResponse {
     Long retweet_count;
     User user;
 
+    public Long getFavorite_count() {
+        return favorite_count;
+    }
+
+    Long favorite_count;
+
     public Entities getEntities() {
         return entities;
     }

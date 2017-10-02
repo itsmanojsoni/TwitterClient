@@ -116,8 +116,8 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
             holder.reTweet.setText(String.valueOf(item.getRetweet_count()));
         }
 
-        if (item.getUser().getFavourites_count() != null) {
-            holder.like.setText(String.valueOf(item.getUser().getFavourites_count()));
+        if (item.getFavorite_count() != null) {
+            holder.like.setText(String.valueOf(item.getFavorite_count()));
         }
 
         Long createdTimeStamp = System.currentTimeMillis();

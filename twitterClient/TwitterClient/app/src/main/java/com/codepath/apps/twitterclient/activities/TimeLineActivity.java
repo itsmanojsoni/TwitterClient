@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
@@ -56,6 +58,12 @@ public class TimeLineActivity extends AppCompatActivity implements ComposeDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_line);
         ButterKnife.bind(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         timeLinePresenter = new TimeLinePresenter(this);
 
