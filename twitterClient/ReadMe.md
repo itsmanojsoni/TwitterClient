@@ -61,8 +61,8 @@ https://github.com/itsmanojsoni/TwitterClient/blob/master/twitterClient/Twitter.
 ## Notes
 
 Describe any challenges encountered while building the app.
-*[X]  Authentication with Retrofit tool more time than expected.
-*[X] More time require to complete remaining features
+* [X] Authentication with Retrofit tool more time than expected.
+* [X] More time require to complete remaining features
 
 ## Open-source libraries used
 
