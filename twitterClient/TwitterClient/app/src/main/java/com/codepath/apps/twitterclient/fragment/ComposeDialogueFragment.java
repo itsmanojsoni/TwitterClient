@@ -1,7 +1,5 @@
 package com.codepath.apps.twitterclient.fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,11 +21,8 @@ import android.widget.TextView;
 
 import com.codepath.apps.twitterclient.R;
 
-import butterknife.BindView;
-
-import static android.R.attr.width;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
-import static com.codepath.apps.twitterclient.R.id.tvCharCount;
+
 
 /**
  * Created by manoj on 9/30/17.
@@ -37,6 +33,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
     private EditText mEditText;
     private Button cancel;
     private TextView charCount;
+    private static final String TAG = "ComposeDialogueFragment";
 
     // 1. Defines the listener interface with a method passing back data result.
     public interface ComposeTweetDialogListener {
@@ -103,8 +100,9 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                charCount.setText(String.valueOf(count));
-                if (count > 140) {
+
+                charCount.setText(String.valueOf(start));
+                if (start > 140) {
                     mEditText.setTextColor(Color.parseColor("#FF0000"));
                     charCount.setTextColor(Color.parseColor("#FF0000"));
                 } else {
