@@ -16,4 +16,7 @@
     <string name="Cancel">Cancel</string>
     <string name="statusHint">What\'s on Your mind</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
