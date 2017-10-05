@@ -17,6 +17,8 @@ import android.util.Log;
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
 import com.codepath.apps.twitterclient.fragment.ComposeDialogueFragment;
+import com.codepath.apps.twitterclient.fragment.HomeFeedFragment;
+import com.codepath.apps.twitterclient.fragment.MentionFragment;
 import com.codepath.apps.twitterclient.fragment.TimeLineFragment;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
@@ -51,7 +53,7 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
 
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        TimeLineFragment fragmentDemo = TimeLineFragment.newInstance("Test", "my title");
+        TimeLineFragment fragmentDemo = HomeFeedFragment.newInstance("Test", "my title");
         ft.replace(R.id.timeLineFragmentContainer, fragmentDemo);
         ft.commit();
     }
@@ -59,7 +61,6 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override

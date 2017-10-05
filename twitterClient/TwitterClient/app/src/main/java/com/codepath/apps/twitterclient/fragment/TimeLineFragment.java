@@ -43,7 +43,7 @@ import static android.content.ContentValues.TAG;
  * Use the {@link TimeLineFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TimeLineFragment extends Fragment implements ComposeDialogueFragment.ComposeTweetDialogListener {
+public abstract class TimeLineFragment extends Fragment implements ComposeDialogueFragment.ComposeTweetDialogListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,10 +55,10 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
 
     private OnFragmentInteractionListener mListener;
 
-    private List<TwitterResponse> twitterResponses = new ArrayList<>();
+    protected List<TwitterResponse> twitterResponses = new ArrayList<>();
 
-    private TwitterFeedAdapter twitterFeedAdapter;
-    private TimeLinePresenter timeLinePresenter;
+    protected TwitterFeedAdapter twitterFeedAdapter;
+    protected TimeLinePresenter timeLinePresenter;
 
     RecyclerView recyclerView;
 //    @BindView(R.id.fbCompose)
@@ -83,14 +83,14 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
      * @return A new instance of fragment TimeLineFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TimeLineFragment newInstance(String param1, String param2) {
-        TimeLineFragment fragment = new TimeLineFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    public static TimeLineFragment newInstance(String param1, String param2) {
+//        TimeLineFragment fragment = new TimeLineFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +131,8 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadMoreData();
+
+
             }
         };
         recyclerView.addOnScrollListener(scrollListener);
@@ -154,10 +156,9 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
         return view;
-
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -181,9 +182,8 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
     public void onResume() {
         super.onResume();
         // Define the code block to be executed
-        Runnable runnableCode = () -> loadMoreData();
 
-        handler.postDelayed(runnableCode, TIME_OUT);
+        loadMoreData();
     }
 
     @Override
@@ -192,16 +192,18 @@ public class TimeLineFragment extends Fragment implements ComposeDialogueFragmen
         mListener = null;
     }
 
-    private void loadMoreData() {
-        Log.d(TAG, "load More Data offset = " + offset);
-        timeLinePresenter.loadTwitterFeed(twitterResponse -> {
-            twitterResponses.addAll(twitterResponse);
-            recyclerView.post(() -> {
-                twitterFeedAdapter.notifyDataSetChanged();
-            });
-            return;
-        });
-    }
+//    private void loadMoreData() {
+//        Log.d(TAG, "load More Data offset = " + offset);
+//        timeLinePresenter.loadTwitterFeed(twitterResponse -> {
+//            twitterResponses.addAll(twitterResponse);
+//            recyclerView.post(() -> {
+//                twitterFeedAdapter.notifyDataSetChanged();
+//            });
+//            return;
+//        });
+//    }
+
+    public abstract void loadMoreData();
 
     @Override
     public void onFinishEditDialog(String inputText) {

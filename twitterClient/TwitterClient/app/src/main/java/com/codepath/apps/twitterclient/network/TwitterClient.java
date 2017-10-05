@@ -71,6 +71,14 @@ public class TwitterClient  {
 		}
 	}
 
+	public Observable<List<TwitterResponse>> getMentionTimeline(Integer count, Long sinceId, Long maxId) {
+		if (maxId > 0 ) {
+			return  twitterService.getHomeTimeLineMax(count, (maxId - 1));
+		} else {
+			return  twitterService.getHomeTimeLineSince(count,sinceId);
+		}
+	}
+
 	public Observable<TwitterResponse> postStatus(String status) {
 		return twitterService.postStatus(status);
 	}

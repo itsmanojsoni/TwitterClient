@@ -39,9 +39,37 @@ public class TimeLinePresenter {
         this.context = context;
     }
 
-    public void loadTwitterFeed(OnLoadTwitterFeedListener listener) {
+    public void loadHomeTwitterFeed(OnLoadTwitterFeedListener listener) {
         TwitterApplication.getRestClient()
                 .getHomeTimeline(count, sinceId, maxId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<TwitterResponse>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onComplete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Error in loading Feed");
+                        checkError();
+                    }
+
+                    @Override
+                    public void onNext(List<TwitterResponse> twitterResponses) {
+                        if (twitterResponses.size() > 0) {
+                            maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
+                            listener.onLoadTwitterFeed(twitterResponses);
+                        }
+                    }
+                });
+    }
+
+    public void loadMentionTwitterFeed(OnLoadTwitterFeedListener listener) {
+        TwitterApplication.getRestClient()
+                .getMentionTimeline(count, sinceId, maxId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<List<TwitterResponse>>() {

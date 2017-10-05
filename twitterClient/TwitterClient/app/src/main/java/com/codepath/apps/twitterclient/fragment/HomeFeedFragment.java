@@ -1,27 +1,16 @@
 package com.codepath.apps.twitterclient.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.codepath.apps.twitterclient.R;
 
 import static android.R.attr.offset;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MentionFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MentionFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Created by manoj on 10/5/17.
  */
-public class MentionFragment extends TimeLineFragment {
+
+public class HomeFeedFragment extends TimeLineFragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,7 +24,7 @@ public class MentionFragment extends TimeLineFragment {
 
     private static final String TAG = "HomeFeedFragment";
 
-    public MentionFragment() {
+    public HomeFeedFragment() {
         // Required empty public constructor
     }
 
@@ -68,3 +57,4 @@ public class MentionFragment extends TimeLineFragment {
         });
     }
 }
+

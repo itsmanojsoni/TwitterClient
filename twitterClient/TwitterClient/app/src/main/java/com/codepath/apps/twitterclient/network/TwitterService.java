@@ -19,6 +19,13 @@ public interface TwitterService {
     @GET("1.1/statuses/home_timeline.json")
     Observable<List<TwitterResponse>> getHomeTimeLineSince(@Query("count") int count,@Query("since_id") Long sinceId);
 
+
+    @GET("1.1/statuses/mention_timeline.json")
+    Observable<List<TwitterResponse>> getMentionTimeLineMax(@Query("count") int count, @Query("max_id") Long maxId);
+
+    @GET("1.1/statuses/home_timeline.json")
+    Observable<List<TwitterResponse>> getMentionTimeLineSince(@Query("count") int count,@Query("since_id") Long sinceId);
+
     @FormUrlEncoded
     @POST("1.1/statuses/update.json")
     Observable<TwitterResponse> postStatus(@Field("status") String status);
