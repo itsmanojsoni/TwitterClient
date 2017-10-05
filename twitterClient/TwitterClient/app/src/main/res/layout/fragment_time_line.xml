@@ -39,15 +39,15 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fbCompose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@mipmap/ic_compose"
-        android:backgroundTint="@android:color/white"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fbCompose"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|right"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:src="@mipmap/ic_compose"-->
+        <!--android:backgroundTint="@android:color/white"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentBottom="true" />-->
 
 </RelativeLayout>
