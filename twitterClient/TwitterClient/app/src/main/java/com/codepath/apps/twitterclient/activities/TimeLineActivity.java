@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.codepath.apps.twitterclient.R;
+import com.codepath.apps.twitterclient.adapter.SampleFragmentPagerAdapter;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
 import com.codepath.apps.twitterclient.fragment.ComposeDialogueFragment;
 import com.codepath.apps.twitterclient.fragment.HomeFeedFragment;
@@ -52,10 +55,19 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        TimeLineFragment fragmentDemo = HomeFeedFragment.newInstance("Test", "my title");
-        ft.replace(R.id.timeLineFragmentContainer, fragmentDemo);
-        ft.commit();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        TimeLineFragment fragmentDemo = HomeFeedFragment.newInstance("Test", "my title");
+//        ft.replace(R.id.timeLineFragmentContainer, fragmentDemo);
+//        ft.commit();
+
+        // Get the ViewPager and set it's PagerAdapter so that it can display items
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
+                this));
+
+        // Give the TabLayout the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

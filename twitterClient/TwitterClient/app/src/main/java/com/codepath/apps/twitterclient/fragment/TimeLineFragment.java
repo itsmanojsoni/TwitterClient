@@ -182,7 +182,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
     public void onResume() {
         super.onResume();
         // Define the code block to be executed
-
         loadMoreData();
     }
 

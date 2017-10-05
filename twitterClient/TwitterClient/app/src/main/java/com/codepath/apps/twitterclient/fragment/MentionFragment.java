@@ -58,8 +58,8 @@ public class MentionFragment extends TimeLineFragment {
     }
 
     public void loadMoreData() {
-        Log.d(TAG, "load More Data offset = " + offset);
-        timeLinePresenter.loadHomeTwitterFeed(twitterResponse -> {
+        Log.d(TAG, "Load Mention Twitter Feed = ");
+        timeLinePresenter.loadMentionTwitterFeed(twitterResponse -> {
             twitterResponses.addAll(twitterResponse);
             recyclerView.post(() -> {
                 twitterFeedAdapter.notifyDataSetChanged();

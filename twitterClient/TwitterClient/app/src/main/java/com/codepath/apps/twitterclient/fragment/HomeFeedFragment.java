@@ -37,8 +37,8 @@ public class HomeFeedFragment extends TimeLineFragment {
      * @return A new instance of fragment HomeFeedFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MentionFragment newInstance(String param1, String param2) {
-        MentionFragment fragment = new MentionFragment();
+    public static HomeFeedFragment newInstance(String param1, String param2) {
+        HomeFeedFragment fragment = new HomeFeedFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +47,7 @@ public class HomeFeedFragment extends TimeLineFragment {
     }
 
     public void loadMoreData() {
-        Log.d(TAG, "load More Data offset = " + offset);
+        Log.d(TAG, "load Home Twitter Feed ");
         timeLinePresenter.loadHomeTwitterFeed(twitterResponse -> {
             twitterResponses.addAll(twitterResponse);
             recyclerView.post(() -> {
