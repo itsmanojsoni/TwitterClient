@@ -53,7 +53,7 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    protected OnFragmentInteractionListener mListener;
 
     protected List<TwitterResponse> twitterResponses = new ArrayList<>();
 
@@ -240,6 +240,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(Object data);
     }
 }

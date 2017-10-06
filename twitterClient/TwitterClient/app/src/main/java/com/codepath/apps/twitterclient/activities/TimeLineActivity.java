@@ -82,7 +82,7 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(Object data) {
 
     }
 }

@@ -9,6 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.codepath.apps.twitterclient.models.TwitterResponse;
+import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
+
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,8 +34,6 @@ public class UserFragment extends TimeLineFragment {
     private String mParam2;
 
     private static final String TAG = "UserFragment";
-
-    private OnFragmentInteractionListener mListener;
 
     public UserFragment() {
         // Required empty public constructor
@@ -56,14 +59,18 @@ public class UserFragment extends TimeLineFragment {
 
 
     public void loadMoreData() {
-        Log.d(TAG, "Load Mention Twitter Feed = ");
+        Log.d(TAG, "Load User  TimeLine Twitter Feed = ");
         String screenName = "itsmanojsoni";
-        timeLinePresenter.loadUserTimeLineFeed(screenName,twitterResponse -> {
-            twitterResponses.addAll(twitterResponse);
-            recyclerView.post(() -> {
-                twitterFeedAdapter.notifyDataSetChanged();
-            });
-            return;
+        timeLinePresenter.loadUserTimeLineFeed(screenName, new TimeLinePresenter.OnLoadTwitterFeedListener() {
+            @Override
+            public void onLoadTwitterFeed(List<TwitterResponse> twitterResponse) {
+                twitterResponses.addAll(twitterResponse);
+                recyclerView.post(() -> {
+                    twitterFeedAdapter.notifyDataSetChanged();
+                    mListener.onFragmentInteraction(twitterResponse);
+                });
+                return;
+            }
         });
     }
 

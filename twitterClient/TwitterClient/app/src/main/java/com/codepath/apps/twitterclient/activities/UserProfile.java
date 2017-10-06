@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.fragment.TimeLineFragment;
 import com.codepath.apps.twitterclient.fragment.UserFragment;
@@ -19,6 +22,11 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
     private static final String TAG = "UserProfile";
 
+    private ImageView profilPic;
+    private TextView followerCount;
+    private TextView followingCount;
+    private TextView name;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +35,11 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        profilPic = findViewById(R.id.ivProfilePic);
+        followerCount = findViewById(R.id.tvFollowerUserCount);
+        followingCount = findViewById(R.id.tvFollowingUserCount);
+        name = findViewById(R.id.tvUserName);
 
 
         UserFragment userFragment = UserFragment.newInstance("Test", "Test");
@@ -44,13 +57,32 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
         timeLinePresenter.loadUserInfo(response -> {
             Log.d(TAG, "onLoadUser Info and User Screen Name is : "+response.getScreen_name());
             getSupportActionBar().setTitle(response.getScreen_name());
+
+            setData(response);
+
         });
 
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(Object data) {
 
+        if (data instanceof TwitterResponse) {
 
+//            setData((TwitterResponse) data);
+
+        }
+    }
+
+    private void setData (User user) {
+
+        if (user.getFollowers_count() != null) {
+            followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers");
+        }
+        name.setText(user.getName());
+        if (user.getFollowing_count() != null){
+            followingCount.setText(String.valueOf(user.getFollowing_count()) + " Following");
+        }
+        Glide.with(this).load(user.getProfile_image_url()).into(profilPic);
     }
 }

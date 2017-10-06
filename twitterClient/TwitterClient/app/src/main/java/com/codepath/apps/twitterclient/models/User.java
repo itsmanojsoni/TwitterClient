@@ -11,11 +11,11 @@ public class User {
     boolean verified;
     Long followers_count;
 
-//    public Long getFollowing_count() {
-//        return following_count;
-//    }
-//
-//    Long following_count;
+    public Long getFollowing_count() {
+        return following_count;
+    }
+
+    Long following_count;
 
 
     public Long getFollowers_count() {
