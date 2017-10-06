@@ -15,6 +15,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.adapter.SampleFragmentPagerAdapter;
@@ -42,7 +44,6 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
 
     private static final String TAG = "TimeLineActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +55,6 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//        TimeLineFragment fragmentDemo = HomeFeedFragment.newInstance("Test", "my title");
-//        ft.replace(R.id.timeLineFragmentContainer, fragmentDemo);
-//        ft.commit();
-
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(new SampleFragmentPagerAdapter(getSupportFragmentManager(),
@@ -68,6 +63,17 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+
+        ImageView userProfile = findViewById(R.id.ivUserProfile);
+
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(),UserProfile.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

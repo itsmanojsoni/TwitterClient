@@ -6,10 +6,21 @@ import org.parceler.Parcel;
 @Parcel
 public class User {
     String name;
-    String id;
     String screen_name;
     String profile_image_url;
     boolean verified;
+    Long followers_count;
+
+//    public Long getFollowing_count() {
+//        return following_count;
+//    }
+//
+//    Long following_count;
+
+
+    public Long getFollowers_count() {
+        return followers_count;
+    }
 
     public User() {
 
@@ -27,9 +38,6 @@ public class User {
         return verified;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public String getScreen_name() {
         return screen_name;

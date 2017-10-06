@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
+import com.codepath.apps.twitterclient.models.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -77,6 +78,18 @@ public class TwitterClient  {
 		} else {
 			return  twitterService.getMentionTimeLineSince(count,sinceId);
 		}
+	}
+
+	public Observable<List<TwitterResponse>> getUserTimeline(Integer count, Long sinceId, Long maxId, String screenName) {
+		if (maxId > 0 ) {
+			return  twitterService.getUserTimeLineMax(count, (maxId - 1), screenName);
+		} else {
+			return  twitterService.getUserTimeLineSince(count,sinceId,screenName);
+		}
+	}
+
+	public Observable<User> getUserInfo() {
+			return  twitterService.getUserInfo();
 	}
 
 	public Observable<TwitterResponse> postStatus(String status) {

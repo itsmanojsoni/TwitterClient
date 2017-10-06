@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.application.TwitterApplication;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
+import com.codepath.apps.twitterclient.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,17 @@ public class TimeLinePresenter {
 
     public interface OnLoadTwitterFeedListener {
         void onLoadTwitterFeed(List<TwitterResponse> response);
+
     }
+
+
+    public interface OnLoadUserInfo {
+        void onLoadUserInfo (User response);
+    }
+
+
+
+
 
     public TimeLinePresenter(Context context) {
         this.context = context;
@@ -91,6 +102,59 @@ public class TimeLinePresenter {
                             maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
                             listener.onLoadTwitterFeed(twitterResponses);
                         }
+                    }
+                });
+    }
+
+    public void loadUserTimeLineFeed(String screenName, OnLoadTwitterFeedListener listener) {
+        TwitterApplication.getRestClient()
+                .getUserTimeline(count, sinceId, maxId, screenName)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<TwitterResponse>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onComplete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Error in loading Feed");
+                        checkError();
+                    }
+
+                    @Override
+                    public void onNext(List<TwitterResponse> twitterResponses) {
+                        if (twitterResponses.size() > 0) {
+                            maxId = twitterResponses.get(twitterResponses.size() - 1).getId();
+                            listener.onLoadTwitterFeed(twitterResponses);
+                        }
+                    }
+                });
+    }
+
+    public void loadUserInfo(OnLoadUserInfo listener) {
+        TwitterApplication.getRestClient()
+                .getUserInfo()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onComplete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Error in loading Feed");
+                        checkError();
+                    }
+
+                    @Override
+                    public void onNext(User twitterResponses) {
+                        listener.onLoadUserInfo(twitterResponses);
                     }
                 });
     }
