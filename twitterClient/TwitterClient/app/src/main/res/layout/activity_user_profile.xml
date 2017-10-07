@@ -38,6 +38,19 @@
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/ivProfilePic"
             android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvTagLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_below="@id/tvUserName"
+            android:layout_toRightOf="@+id/ivProfilePic"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
         <TextView
             android:id="@+id/tvFollowerUserCount"
             android:layout_width="wrap_content"
@@ -48,6 +61,7 @@
             android:id="@+id/tvFollowingUserCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/ivProfilePic"
             android:layout_toRightOf="@+id/tvFollowerUserCount"/>
     </RelativeLayout>
@@ -67,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
         android:layout_below="@+id/line">
     </FrameLayout>
 

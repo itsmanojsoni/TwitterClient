@@ -47,10 +47,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
-        android:background="?attr/colorPrimary"
+        android:background="@android:color/white"
+        android:backgroundTint="@android:color/white"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         app:tabMode="fixed"
+        app:tabTextColor="@android:color/holo_blue_dark"
+        app:tabSelectedTextColor="@android:color/holo_blue_bright"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <android.support.v4.view.ViewPager

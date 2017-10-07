@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterclient.activities;
 
-import android.net.Uri;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +12,10 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.fragment.TimeLineFragment;
 import com.codepath.apps.twitterclient.fragment.UserFragment;
-import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
 
 import org.parceler.Parcels;
-
-import java.util.List;
 
 public class UserProfile extends AppCompatActivity implements TimeLineFragment.OnFragmentInteractionListener{
 
@@ -29,8 +25,7 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
     private TextView followerCount;
     private TextView followingCount;
     private TextView name;
-
-    private TwitterResponse twitterResponse;
+    private TextView tagLine;
 
     private User user;
 
@@ -46,11 +41,11 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
         followerCount = findViewById(R.id.tvFollowerUserCount);
         followingCount = findViewById(R.id.tvFollowingUserCount);
         name = findViewById(R.id.tvUserName);
+        tagLine = findViewById(R.id.tvTagLine);
 
 
-        twitterResponse = Parcels.unwrap(getIntent().getParcelableExtra("twitter"));
+        user = Parcels.unwrap(getIntent().getParcelableExtra("twitter"));
 
-        user = twitterResponse.getUser();
 
         UserFragment userFragment = UserFragment.newInstance("Test", user.getScreen_name());
         // Begin the transaction
@@ -64,13 +59,17 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
         // get User Credential to display the name on the tool bar
         TimeLinePresenter timeLinePresenter = new TimeLinePresenter(this);
 
-        timeLinePresenter.loadUserInfo(response -> {
-            Log.d(TAG, "onLoadUser Info and User Screen Name is : "+response.getScreen_name());
-            getSupportActionBar().setTitle(user.getScreen_name());
-            setData();
+        timeLinePresenter.loadUserInfo(new TimeLinePresenter.OnLoadUserInfo() {
+            @Override
+            public void onLoadUserInfo(User response) {
+                Log.d(TAG, "onLoadUser Info and User Screen Name is : " + response.getScreen_name());
+                UserProfile.this.getSupportActionBar().setTitle(user.getScreen_name());
+                UserProfile.this.setData();
 
+
+
+            }
         });
-
     }
 
     @Override
@@ -81,13 +80,18 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
         if (user != null) {
             if (user.getFollowers_count() != null) {
-                followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers");
+                followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers ");
             }
             name.setText(user.getName());
             if (user.getFollowing_count() != null) {
                 followingCount.setText(String.valueOf(user.getFollowing_count()) + " Following");
             }
             Glide.with(this).load(user.getProfile_image_url()).into(profilPic);
+            if (user.getDescription() != null) {
+
+                Log.d(TAG, "User Text = "+user.getDescription());
+            }
+            tagLine.setText(user.getDescription());
         }
     }
 }

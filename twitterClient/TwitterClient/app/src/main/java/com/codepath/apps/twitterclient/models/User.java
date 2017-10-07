@@ -11,11 +11,21 @@ public class User {
     boolean verified;
     Long followers_count;
 
-    public Long getFollowing_count() {
-        return following_count;
+    public String getDescription() {
+        return description;
     }
 
-    Long following_count;
+    public Long getFriends_count() {
+        return friends_count;
+    }
+
+    String description;
+
+    public Long getFollowing_count() {
+        return friends_count;
+    }
+
+    Long friends_count;
 
 
     public Long getFollowers_count() {

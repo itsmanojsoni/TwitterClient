@@ -23,6 +23,7 @@ import com.codepath.apps.twitterclient.activities.TwitterDetailActivity;
 import com.codepath.apps.twitterclient.activities.UserProfile;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
+import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
 
 import org.parceler.Parcels;
@@ -126,8 +127,8 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
 
 
                         Intent intent = new Intent(TimeLineFragment.this.getContext(), UserProfile.class);
-                        TwitterResponse twitterResponse = twitterResponses.get(position);
-                        intent.putExtra("twitter", Parcels.wrap(twitterResponse));
+                        User user = twitterResponses.get(position).getUser();
+                        intent.putExtra("twitter", Parcels.wrap(user));
                         TimeLineFragment.this.startActivity(intent);
 
                     }

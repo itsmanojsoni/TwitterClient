@@ -38,7 +38,7 @@ public interface TwitterService {
                                                            @Query("since_id") Long sinceId,
                                                            @Query("screen_name") String screenName);
 
-    @GET("1.1/account/verify_credentials.json")
+        @GET("1.1/account/verify_credentials.json")
     Observable<User> getUserInfo();
 
 
