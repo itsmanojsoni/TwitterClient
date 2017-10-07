@@ -50,6 +50,9 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
         setContentView(R.layout.activity_time_line);
         ButterKnife.bind(this);
 
+
+        FloatingActionButton compose = findViewById(R.id.fbCompose);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,11 +72,14 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
         userProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent intent = new Intent(getApplicationContext(),UserProfile.class);
+                Intent intent = new Intent(getApplicationContext(), UserProfile.class);
                 startActivity(intent);
             }
         });
+
+
+
+
     }
 
     @Override
@@ -85,4 +91,7 @@ public class TimeLineActivity extends AppCompatActivity implements TimeLineFragm
     public void onFragmentInteraction(Object data) {
 
     }
+
+
+
 }

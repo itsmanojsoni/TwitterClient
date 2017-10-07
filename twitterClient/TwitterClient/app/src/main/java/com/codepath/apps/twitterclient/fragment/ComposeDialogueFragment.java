@@ -133,7 +133,7 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text back to activity through the implemented listener
-            ComposeTweetDialogListener listener = (ComposeTweetDialogListener) getActivity();
+            ComposeTweetDialogListener listener = (ComposeTweetDialogListener) getTargetFragment();
             listener.onFinishEditDialog(mEditText.getText().toString());
             // Close the dialog and return back to the parent activity
             dismiss();

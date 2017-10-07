@@ -83,5 +83,4 @@ public class UserFragment extends TimeLineFragment {
         });
     }
 
-
 }

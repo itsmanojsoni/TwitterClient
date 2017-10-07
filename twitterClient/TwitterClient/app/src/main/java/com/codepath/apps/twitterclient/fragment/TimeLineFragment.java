@@ -112,6 +112,8 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
 
         timeLinePresenter = new TimeLinePresenter(getContext());
 
+        FloatingActionButton compose = view.findViewById(R.id.fbCompose);
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -153,13 +155,18 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         };
         recyclerView.addOnScrollListener(scrollListener);
 
-//        compose.setOnClickListener(view -> {
-//            ComposeDialogueFragment.newInstance("Compose");
-//            FragmentManager fm = TimeLineActivity.this.getSupportFragmentManager();
-//            ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
-//            composeDialogFragment.show(fm, "fragment_edit_name");
-//
-//        });
+        final Fragment fragment = this;
+        compose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ComposeDialogueFragment.newInstance("Compose");
+                FragmentManager fm = TimeLineFragment.this.getActivity().getSupportFragmentManager();
+                ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
+                composeDialogFragment.setTargetFragment(fragment,300);
+                composeDialogFragment.show(fm, "fragment_edit_name");
+
+            }
+        });
 
 
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -218,8 +225,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
 //        });
 //    }
 
-    public abstract void loadMoreData();
-
     @Override
     public void onFinishEditDialog(String inputText) {
         timeLinePresenter.postTwitterStatus(inputText, response -> {
@@ -228,6 +233,9 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
             recyclerView.scrollToPosition(0);
         });
     }
+
+    public abstract void loadMoreData();
+
 
 
     private void fetchTimelineAsync() {

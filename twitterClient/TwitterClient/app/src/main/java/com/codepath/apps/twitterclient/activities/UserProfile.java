@@ -50,11 +50,7 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
         twitterResponse = Parcels.unwrap(getIntent().getParcelableExtra("twitter"));
 
-
-
         user = twitterResponse.getUser();
-
-
 
         UserFragment userFragment = UserFragment.newInstance("Test", user.getScreen_name());
         // Begin the transaction
