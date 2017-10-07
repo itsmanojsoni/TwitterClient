@@ -63,7 +63,37 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
 
         public void bind(final TwitterResponse model,
                          final OnItemClickListener listener) {
-            itemView.setOnClickListener(v -> listener.onItemClick(getLayoutPosition()));
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    listener.onItemClick(ViewHolder.this.getLayoutPosition());
+//                }
+//            });
+
+            ivProfileImage.setOnClickListener(view -> {
+
+                listener.onProfileClicked(ViewHolder.this.getLayoutPosition());
+
+            });
+
+            tvScreenName.setOnClickListener(view -> {
+
+                listener.onProfileClicked(ViewHolder.this.getLayoutPosition());
+
+            });
+
+            tvUserName.setOnClickListener(view -> {
+
+                listener.onProfileClicked(ViewHolder.this.getLayoutPosition());
+
+            });
+
+            tvStatusText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onStatusTextClicked(ViewHolder.this.getLayoutPosition());
+                }
+            });
         }
     }
 
@@ -99,7 +129,8 @@ public class TwitterFeedAdapter extends RecyclerView.Adapter<TwitterFeedAdapter.
 
 
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onProfileClicked (int position);
+        void onStatusTextClicked (int position);
     }
 
     private void bindData(ViewHolder holder, TwitterResponse item) {

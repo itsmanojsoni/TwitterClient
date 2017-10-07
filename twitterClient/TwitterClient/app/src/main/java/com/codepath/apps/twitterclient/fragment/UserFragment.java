@@ -33,6 +33,8 @@ public class UserFragment extends TimeLineFragment {
     private String mParam1;
     private String mParam2;
 
+    private String userScreenName;
+
     private static final String TAG = "UserFragment";
 
     public UserFragment() {
@@ -48,20 +50,27 @@ public class UserFragment extends TimeLineFragment {
      * @return A new instance of fragment UserFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserFragment newInstance(String param1, String param2) {
+    public static UserFragment newInstance(String param1, String screenName) {
         UserFragment fragment = new UserFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM2, screenName);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            userScreenName = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
 
     public void loadMoreData() {
-        Log.d(TAG, "Load User  TimeLine Twitter Feed = ");
-        String screenName = "itsmanojsoni";
-        timeLinePresenter.loadUserTimeLineFeed(screenName, new TimeLinePresenter.OnLoadTwitterFeedListener() {
+        timeLinePresenter.loadUserTimeLineFeed(userScreenName, new TimeLinePresenter.OnLoadTwitterFeedListener() {
             @Override
             public void onLoadTwitterFeed(List<TwitterResponse> twitterResponse) {
                 twitterResponses.addAll(twitterResponse);

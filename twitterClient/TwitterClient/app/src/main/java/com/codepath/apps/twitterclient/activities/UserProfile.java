@@ -16,6 +16,9 @@ import com.codepath.apps.twitterclient.fragment.UserFragment;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
+
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class UserProfile extends AppCompatActivity implements TimeLineFragment.OnFragmentInteractionListener{
@@ -27,6 +30,9 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
     private TextView followingCount;
     private TextView name;
 
+    private TwitterResponse twitterResponse;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,15 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
         name = findViewById(R.id.tvUserName);
 
 
-        UserFragment userFragment = UserFragment.newInstance("Test", "Test");
+        twitterResponse = Parcels.unwrap(getIntent().getParcelableExtra("twitter"));
+
+
+
+        user = twitterResponse.getUser();
+
+
+
+        UserFragment userFragment = UserFragment.newInstance("Test", user.getScreen_name());
         // Begin the transaction
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // Replace the contents of the container with the new fragment
@@ -56,9 +70,8 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
         timeLinePresenter.loadUserInfo(response -> {
             Log.d(TAG, "onLoadUser Info and User Screen Name is : "+response.getScreen_name());
-            getSupportActionBar().setTitle(response.getScreen_name());
-
-            setData(response);
+            getSupportActionBar().setTitle(user.getScreen_name());
+            setData();
 
         });
 
@@ -66,23 +79,19 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
     @Override
     public void onFragmentInteraction(Object data) {
-
-        if (data instanceof TwitterResponse) {
-
-//            setData((TwitterResponse) data);
-
-        }
     }
 
-    private void setData (User user) {
+    private void setData () {
 
-        if (user.getFollowers_count() != null) {
-            followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers");
+        if (user != null) {
+            if (user.getFollowers_count() != null) {
+                followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers");
+            }
+            name.setText(user.getName());
+            if (user.getFollowing_count() != null) {
+                followingCount.setText(String.valueOf(user.getFollowing_count()) + " Following");
+            }
+            Glide.with(this).load(user.getProfile_image_url()).into(profilPic);
         }
-        name.setText(user.getName());
-        if (user.getFollowing_count() != null){
-            followingCount.setText(String.valueOf(user.getFollowing_count()) + " Following");
-        }
-        Glide.with(this).load(user.getProfile_image_url()).into(profilPic);
     }
 }

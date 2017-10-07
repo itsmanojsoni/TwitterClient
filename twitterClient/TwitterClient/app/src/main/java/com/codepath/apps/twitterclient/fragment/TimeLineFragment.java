@@ -20,6 +20,7 @@ import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.activities.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.twitterclient.activities.TimeLineActivity;
 import com.codepath.apps.twitterclient.activities.TwitterDetailActivity;
+import com.codepath.apps.twitterclient.activities.UserProfile;
 import com.codepath.apps.twitterclient.adapter.TwitterFeedAdapter;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
@@ -117,12 +118,27 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         recyclerView.setLayoutManager(layoutManager);
 
         twitterFeedAdapter = new TwitterFeedAdapter(getContext(), twitterResponses,
-                position -> {
-                    Intent intent = new Intent(getContext(), TwitterDetailActivity.class);
-                    TwitterResponse twitterResponse = twitterResponses.get(position);
-                    intent.putExtra("twitter", Parcels.wrap(twitterResponse));
-                    startActivity(intent);
+                new TwitterFeedAdapter.OnItemClickListener() {
+                    @Override
+                    public void onProfileClicked(int position) {
 
+
+                        Intent intent = new Intent(TimeLineFragment.this.getContext(), UserProfile.class);
+                        TwitterResponse twitterResponse = twitterResponses.get(position);
+                        intent.putExtra("twitter", Parcels.wrap(twitterResponse));
+                        TimeLineFragment.this.startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onStatusTextClicked(int position) {
+
+                        Intent intent = new Intent(TimeLineFragment.this.getContext(), TwitterDetailActivity.class);
+                        TwitterResponse twitterResponse = twitterResponses.get(position);
+                        intent.putExtra("twitter", Parcels.wrap(twitterResponse));
+                        TimeLineFragment.this.startActivity(intent);
+
+                    }
                 });
 
         recyclerView.setAdapter(twitterFeedAdapter);
