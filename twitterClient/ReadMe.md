@@ -42,6 +42,7 @@ The following **additional** features are implemented:
 
 * [X] Implemented tweets in a card view
 * [X] Used Retrofit and OkHttp as http client and network library 
+* [X] Truncated Follower and Following number into readable form 
 
 ## Video Walkthrough
 
