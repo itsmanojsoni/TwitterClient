@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.codepath.apps.twitterclient.R;
 
+import static android.R.attr.editable;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
 
 
@@ -33,6 +34,8 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
     private EditText mEditText;
     private Button cancel;
     private TextView charCount;
+
+    private static final int NO_OF_MAX_CHAR = 140;
     private static final String TAG = "ComposeDialogueFragment";
 
     // 1. Defines the listener interface with a method passing back data result.
@@ -100,9 +103,10 @@ public class ComposeDialogueFragment extends DialogFragment implements TextView.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                int noOfChar = NO_OF_MAX_CHAR - s.length();
+                charCount.setText(String.valueOf(noOfChar));
 
-                charCount.setText(String.valueOf(start));
-                if (start > 140) {
+                if (noOfChar < 0) {
                     mEditText.setTextColor(Color.parseColor("#FF0000"));
                     charCount.setTextColor(Color.parseColor("#FF0000"));
                 } else {

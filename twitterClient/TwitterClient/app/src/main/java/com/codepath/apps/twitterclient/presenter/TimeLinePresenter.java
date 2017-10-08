@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.codepath.apps.twitterclient.application.TwitterApplication;
 import com.codepath.apps.twitterclient.models.TwitterResponse;
 import com.codepath.apps.twitterclient.models.User;
+import com.codepath.apps.twitterclient.util.Network;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.codepath.apps.twitterclient.util.Network.isNetworkAvailable;
 
 
 /**
@@ -177,7 +180,7 @@ public class TimeLinePresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        checkError();
                         e.printStackTrace();
                     }
 
@@ -193,15 +196,12 @@ public class TimeLinePresenter {
 
     private void checkError() {
 
-        if (!isNetworkAvailable()) {
+        if (!Network.isNetworkAvailable()) {
+            Toast.makeText(TwitterApplication.getContext(),"Network Connection Error",Toast.LENGTH_LONG).show();
+        } else {
             Toast.makeText(context, "Network Connection Error", Toast.LENGTH_LONG).show();
         }
     }
 
-    private Boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-    }
+
 }

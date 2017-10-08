@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.codepath.apps.twitterclient.R;
+import com.codepath.apps.twitterclient.util.Network;
 
 import butterknife.ButterKnife;
+
+import static com.codepath.apps.twitterclient.util.Network.isNetworkAvailable;
 
 
 public class TwitterMainActivity extends AppCompatActivity {
@@ -23,6 +27,10 @@ public class TwitterMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button button = findViewById(R.id.bnLogin);
+
+        if (!Network.isNetworkAvailable()) {
+            Toast.makeText(this,"Network Connection Error",Toast.LENGTH_LONG).show();
+        }
 
         // Shared Pref to store share token and token String
         SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(this);
