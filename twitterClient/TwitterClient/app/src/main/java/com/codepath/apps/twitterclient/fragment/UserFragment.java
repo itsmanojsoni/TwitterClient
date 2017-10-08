@@ -1,19 +1,7 @@
 package com.codepath.apps.twitterclient.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.codepath.apps.twitterclient.models.TwitterResponse;
-import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
-
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,16 +58,13 @@ public class UserFragment extends TimeLineFragment {
 
 
     public void loadMoreData() {
-        timeLinePresenter.loadUserTimeLineFeed(userScreenName, new TimeLinePresenter.OnLoadTwitterFeedListener() {
-            @Override
-            public void onLoadTwitterFeed(List<TwitterResponse> twitterResponse) {
-                twitterResponses.addAll(twitterResponse);
-                recyclerView.post(() -> {
-                    twitterFeedAdapter.notifyDataSetChanged();
-                    mListener.onFragmentInteraction(twitterResponse);
-                });
-                return;
-            }
+        timeLinePresenter.loadUserTimeLineFeed(userScreenName, twitterResponse -> {
+            twitterResponses.addAll(twitterResponse);
+            recyclerView.post(() -> {
+                twitterFeedAdapter.notifyDataSetChanged();
+                mListener.onFragmentInteraction(twitterResponse);
+            });
+            return;
         });
     }
 

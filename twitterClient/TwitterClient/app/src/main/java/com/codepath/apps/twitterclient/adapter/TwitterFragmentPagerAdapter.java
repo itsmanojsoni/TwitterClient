@@ -13,14 +13,14 @@ import com.codepath.apps.twitterclient.fragment.MentionFragment;
  * Created by manoj on 10/5/17.
  */
 
-public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+public class TwitterFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Home", "Mention" };
+    private String tabTitles[] = new String[] { "Home", "@Mention" };
     private Context context;
 
     private static final String TAG = "SimpleFragmentPage";
 
-    public SampleFragmentPagerAdapter(FragmentManager fm, Context context) {
+    public TwitterFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;
     }

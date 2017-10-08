@@ -76,24 +76,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TimeLineFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-//    public static TimeLineFragment newInstance(String param1, String param2) {
-//        TimeLineFragment fragment = new TimeLineFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,16 +139,13 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         recyclerView.addOnScrollListener(scrollListener);
 
         final Fragment fragment = this;
-        compose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ComposeDialogueFragment.newInstance("Compose");
-                FragmentManager fm = TimeLineFragment.this.getActivity().getSupportFragmentManager();
-                ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
-                composeDialogFragment.setTargetFragment(fragment,300);
-                composeDialogFragment.show(fm, "fragment_edit_name");
+        compose.setOnClickListener(view1 -> {
+            ComposeDialogueFragment.newInstance("Compose");
+            FragmentManager fm = TimeLineFragment.this.getActivity().getSupportFragmentManager();
+            ComposeDialogueFragment composeDialogFragment = ComposeDialogueFragment.newInstance("Compose");
+            composeDialogFragment.setTargetFragment(fragment,300);
+            composeDialogFragment.show(fm, "fragment_edit_name");
 
-            }
         });
 
 
@@ -183,13 +162,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         return view;
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -214,17 +186,6 @@ public abstract class TimeLineFragment extends Fragment implements ComposeDialog
         super.onDetach();
         mListener = null;
     }
-
-//    private void loadMoreData() {
-//        Log.d(TAG, "load More Data offset = " + offset);
-//        timeLinePresenter.loadTwitterFeed(twitterResponse -> {
-//            twitterResponses.addAll(twitterResponse);
-//            recyclerView.post(() -> {
-//                twitterFeedAdapter.notifyDataSetChanged();
-//            });
-//            return;
-//        });
-//    }
 
     @Override
     public void onFinishEditDialog(String inputText) {
