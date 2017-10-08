@@ -6,6 +6,7 @@ import android.util.Log;
 import com.codepath.apps.twitterclient.R;
 import com.codepath.apps.twitterclient.application.TwitterApplication;
 
+import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,6 +40,34 @@ public class StringUtil {
         } else {
             return context.getString(R.string.twitter_string_week_abbreviation, days / 7);
         }
+    }
+
+    public static String truncateNumber(long value, int decimalPlaces) {
+        if (value == 0) {
+            return String.valueOf(value);
+        }
+        StringBuilder sb = new StringBuilder("###");
+        if (decimalPlaces > 0) {
+            sb.append(".");
+        }
+        for (int i = 0; i < decimalPlaces; i++) {
+            sb.append("#");
+        }
+        DecimalFormat decimalFormat = new DecimalFormat(sb.toString());
+        String[] suffix = {"", "K", "M", "B", "T", "Quad", "Quin"};
+        int power = 0;
+        while(Math.pow(10, power) <= value) {
+            power+=3;
+        }
+        power-=3;
+        String formattedNumber = decimalFormat.format(value / Math.pow(10, power));
+        if (formattedNumber.length() > 4) { // Limit to 3 digits
+            formattedNumber = formattedNumber.substring(0, 4);
+            if (formattedNumber.charAt(3) == '.') { // If the last digit is '.' remove it
+                formattedNumber = formattedNumber.replace(".","");
+            }
+        }
+        return formattedNumber + suffix[power/3];
     }
 
 

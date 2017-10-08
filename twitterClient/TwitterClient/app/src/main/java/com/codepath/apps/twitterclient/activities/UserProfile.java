@@ -14,6 +14,7 @@ import com.codepath.apps.twitterclient.fragment.TimeLineFragment;
 import com.codepath.apps.twitterclient.fragment.UserFragment;
 import com.codepath.apps.twitterclient.models.User;
 import com.codepath.apps.twitterclient.presenter.TimeLinePresenter;
+import com.codepath.apps.twitterclient.util.StringUtil;
 
 import org.parceler.Parcels;
 
@@ -28,6 +29,7 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
     private TextView tagLine;
 
     private User user;
+    private static final int DECIMAL_PLACE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +82,14 @@ public class UserProfile extends AppCompatActivity implements TimeLineFragment.O
 
         if (user != null) {
             if (user.getFollowers_count() != null) {
-                followerCount.setText(String.valueOf(user.getFollowers_count()) + " Followers ");
+
+                String follower_count = StringUtil.truncateNumber(user.getFollowers_count(),DECIMAL_PLACE);
+                followerCount.setText(follower_count + " Followers ");
             }
             name.setText(user.getName());
             if (user.getFollowing_count() != null) {
-                followingCount.setText(String.valueOf(user.getFollowing_count()) + " Following");
+                String following_count = StringUtil.truncateNumber(user.getFollowing_count(),DECIMAL_PLACE);
+                followingCount.setText(following_count + " Following");
             }
             Glide.with(this).load(user.getProfile_image_url()).into(profilPic);
             if (user.getDescription() != null) {
